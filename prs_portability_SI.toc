@@ -1,0 +1,8 @@
+\contentsline {paragraph}{Key implications}{3}{Doc-Start}% 
+\contentsline {section}{\numberline {1}Matching sib-regression and standard GWAS sample sizes}{3}{section.1}% 
+\contentsline {subsection}{\numberline {1.1}Error of the estimated effect at a single site}{3}{subsection.1.1}% 
+\contentsline {subsection}{\numberline {1.2}Sample size required for matched prediction accuracy}{4}{subsection.1.2}% 
+\contentsline {subsection}{\numberline {1.3}Empirical matching of standard errors}{6}{subsection.1.3}% 
+\contentsline {section}{\numberline {2}Indirect parental effects}{7}{section.2}% 
+\contentsline {subsection}{\numberline {2.1}Distribution of effect estimate at a single site}{7}{subsection.2.1}% 
+\contentsline {subsection}{\numberline {2.2}Polygenic score prediction accuracy}{8}{subsection.2.2}% 

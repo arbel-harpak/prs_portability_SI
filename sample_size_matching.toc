@@ -1,0 +1,2 @@
+\contentsline {section}{\numberline {1}Decomposing pitfalls of polygenic score prediction across populations}{3}{section.1}
+\contentsline {subsection}{\numberline {1.1}Matching sib- and unrelated- GWAS sample sizes in non-stratified samples}{3}{subsection.1.1}
