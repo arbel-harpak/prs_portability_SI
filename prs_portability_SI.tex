@@ -1,6 +1,6 @@
 % Use only LaTeX2e, calling the article.cls class and 12-point type.
 
-\author{H. Mostafavi, A. Harpak, D. Conley, J.K. Pritchard, M. Przeworski}
+\author{H. Mostafavi*, A. Harpak*, D. Conley, J.K. Pritchard, M. Przeworski}
 \documentclass[hidelinks, 12pt]{article}
 %\usepackage{scicite}
 \usepackage{times}
@@ -90,29 +90,6 @@
 \title{Poor portability of polygenic scores even within an ancestry group} 
 
 
-% Place the author information here.  Please hand-code the contact
-% information and notecalls; do *not* use \footnote commands.  Let the
-% author contact information appear immediately below the author names
-% as shown.  We would also prefer that you don't change the type-size
-% settings shown here.
-
-%\author
-%{Xun Lan$^{1}$, anyone else?, Jonathan K. Pritchard$^{1,2, 3\ast}$\\
-%\\
-%\normalsize{$^{1}$Department of Genetics, Stanford University}\\
-%\normalsize{$^{2}$Department of Biology, Stanford University}\\
-%\normalsize{$^{3}$Howard Hughes Medical Institute, Stanford University}\\
-%\\
-%\normalsize{$^\ast$To whom correspondence should be addressed:  arbelh@stanford.edu.}
-%}
-
-% Include the date command, but leave its argument blank.
-
-
-
-
-%%%%%%%%%%%%%%%%% END OF PREAMBLE %%%%%%%%%%%%%%%%
-
 
 
 
@@ -138,13 +115,49 @@
 
 \beginsupplement
 
-\paragraph{Key implications}
-ffdsafs
+\section{Prediction accuracy in standard GWAS and sib-regression}
+\subsection{Overview of derived results}
+In the main text, we suggest comparing standard GWAS and sib-regression as a way to evaluate the contribution of indirect effects, environmental confounding and assortative mating.  Below, we propose a method to compare standard and sib- GWAS, and derive qualitative conclusions on how indirect effects and assortative mating will show up in this comparison.  
 
-\section{Matching sib-regression and standard GWAS sample sizes}
+\paragraph{Comparing standard and sib-GWAS.} Modern standard GWAS enjoy huge sample sizes, leading to less noisy estimates than the typically smaller family association studies like sib-GWAS.  In a naive comparison between standard and sib-GWAS, the former is usually more accurate thanks to this difference in noise.  We show that if the standard GWAS is subsampled to a sample size 
+
+n_star formula,
+
+where... 
+
+then, under a simplistic null model, the two study designs are expected to have the same (out-of-sample) prediction accuracy.  However, this analytic result is not very practical: it assumes no population structure confouמding at all, and it also requires prior knowledge on the environmental correlation between sibs.  We therefore suggest an empirical method of matching estimation noise--namely, matching median standard errors between the studies.  We show that under the null, we expect equal out-of-sample prediction accuracy for polygenic scores derived from the two study designs.  
+
+\paragraph{Indirect parental effects.}  In the presence of indirect parental effects, out-of-sample prediction accuracies takes a simple form. For standard GWAS, we get
+
+standard,
+
+where
+
+For sib-GWAS, we get
+
+sibs,
+
+where
+
+An analysis of these two results suggests to us that, under realistic conditions, the presence of indirect effects would lead to higher prediction accuracy in a standard GWAS,  even after the sample-size matching procedure.  This is true even if direct and indirect effects are positively correlated, uncorrelated or even somewhat negatively correlated.
+
+\begin{figure}[!h]
+\centering
+\includegraphics{supp_figures/R_vs_rho_indirect_simulation_and_analytic.pdf}
+\caption[Prediction accuracy in sib and standard GWAS in the presence of indirect effects.]{\small Prediction accuracy in sib and standard GWAS in the presence of indirect effects.  The simulations were performed with an heritability of 0.5 coming from direct effects, 0.1 from indirect effects.  The size of the estimation set for the sib-GWAS based polygenic score was 15,000, and the size of the estimation set for the standard GWAS was chosen such that the standard errors of the effect estimates roughly match between the two study designs. As long as direct and indirect effects are not strongly negatively correlated ($<0.5$), out-of-sample prediction accuracy is higher for the standard-GWAS based polygenic score.}
+\label{fig_R_vs_rho_sims}
+\end{figure}
+
+\paragraph{Assortative mating.}
+
+Under realistic conditions
+
+Assortative mating.
+
+\subsection{Matching sib-regression and standard GWAS sample sizes}
 We are looking for sample size $n^*$ of a standard GWAS using unrelated individuals such that if we use the estimated effects in a polygenic score, the prediction accuracy matches the prediction accuracy of a polygenic score based on a sib regression with sample size $n_{pairs}$. Throughout, we assume that all causal sites $i$ are known and unlinked, and that there is no population stratification or assortative mating.  We begin by finding the error associated with estimating the effect for a single site in each type of GWAS.  We will then examine (and match) the prediction accuracy of the polygenic scores composed from effects estimated in the unrelated/sib estimation sets, $\hat{\beta}_{ur},\hat{\beta}_{sib}$---on a new, independent prediction set $\{(x',y')\}$.
 
-\subsection{Error of the estimated effect at a single site}
+\subsubsection{Error of the estimated effect at a single site}
 In the unrelated sample GWAS, our model is
 $$y=g+e$$
 where $e$ is the environmental effect (including all random noise) and
@@ -174,7 +187,7 @@ where $\rho = Cor[e_A,e_B]$ is the environmental correlation between sibs. The e
 $$Var[\hat{\beta}^{s}_i]=\frac{Var[\Delta \epsilon_i]}{(n_{pairs}-1) Var[\Delta x_i]} = \frac{Var[y] - \beta_i^2var[x_i] + Var[e](1-2\rho)}{(n_{pairs}-1) Var[x_i]}.$$
 
 
-\subsection{Sample size required for matched prediction accuracy}
+\subsubsection{Sample size required for matched prediction accuracy}
 
 We wish to find a sample size $n^*$ in a unrelated sample GWAS s.t. the prediction accuracy matches that of a polygenic score function $\hat{g}_{sib}$ derived from sib regression.  We will measure prediction accuracy as the expected correlation between the polygenic score function $\hat{g}$ and the phenotype in an independent prediction set \{(x',y')\},
 $$R = \frac{Cov[\hat{g}(x'),y']}{\sqrt{Var[y']Var[\hat{g}(x')}]},$$
@@ -213,7 +226,7 @@ we find
 \frac{n^*}{n^{pairs}} \approx \frac{1}{1+(1-h_g^2)(1-2\rho)}.
 \end{equation}
 
-\subsection{Empirical matching of standard errors}
+\subsubsection{Empirical matching of standard errors}
 \label{Empiricalmatchingofstandarderrors}
 Note that the result of eq.~\ref{final_nstar_just_direct} the same as we would get if we required 
 \begin{equation}
@@ -233,8 +246,8 @@ where D is the same for sib- and standard GWAS estimates (as $n^*$ is used), and
 
 \pagebreak
 
-\section{Indirect parental effects}
-\subsection{Distribution of effect estimate at a single site}
+\subsection{Indirect parental effects}
+\subsubsection{Distribution of effect estimate at a single site}
 We start by considering the model
 $$y=\beta_0+g+n+e$$
 where g is a direct-effects polygenic score of an individual with genotypes (effect-allele count) $x_i$ at each site $i$,
@@ -269,7 +282,7 @@ $$\Delta y=\Delta g+\Delta e$$
 as indirect parental effects completely cancel out in taking the difference between sibs, because the sibs have an equal paternal effect allele count. Thus, as in the case of direct effects alone, 
 $$\hat{\beta}_i^{sib} \sim N(\beta_i,\frac{Var[y] - \beta_i^2var[x_i] + Var[e](1-2\rho)}{(n_{pairs}-1) Var[x_i]})$$
 
-\subsection{Polygenic score prediction accuracy}
+\subsubsection{Polygenic score prediction accuracy}
 We now examine the difference in prediction accuracy of $\hat{g}^{ur}$ and $\hat{g}^{sib}$ after matching 
 \begin{equation}
 \label{matching_errors_indirect}
@@ -332,17 +345,38 @@ We examined the fit of this prediction to a simulations of our setup: estimation
 - number of iterations (for estimating $n^*$ and $R$ under a given $\rho$ (correlation between direct and indirect effect sizes) and heritabilities ratio: 1.
 
 \vspace{0.5cm}
-Fig.~\ref{fig_R_vs_rho_sims} shows the fit of the analytic derivation to simulated data with different correlation coefficients between indirect and direct effects.  We note that even in the absence of correlation between indirect and direct effects, the polygenic score based on standard GWAS outperforms the sib-based polygenic score.  This is a consequence of a nonzero $C$ term in eq.~\ref{R_indirect_general_form}.  $C$ is proportional to $Var[\hat{\beta_i}]$, and so vanishes when estimation sample sizes are very large. For realistic sample sizes, however, $C$ is nonzero.  As Fig.~\ref{fig_R_vs_rho_sims} demonstrates, unless the indirect and direct effects are strongly negatively correlated ($<0.5$), prediction accuracy will be higher using the standard GWAS with unrelated individuals.
+{\bf Fig.~\ref{fig_R_vs_rho_sims}} shows the fit of the analytic derivation to simulated data with different correlation coefficients between indirect and direct effects.  We note that even in the absence of correlation between indirect and direct effects, the polygenic score based on standard GWAS outperforms the sib-based polygenic score.  This is a consequence of a nonzero $C$ term in eq.~\ref{R_indirect_general_form}.  $C$ is proportional to $Var[\hat{\beta_i}]$, and so vanishes when estimation sample sizes are very large. For realistic sample sizes, however, $C$ is nonzero.  As Fig.~\ref{fig_R_vs_rho_sims} demonstrates, unless the indirect and direct effects are strongly negatively correlated ($<0.5$), prediction accuracy will be higher using the standard GWAS with unrelated individuals.
 
 
-\begin{figure}[!ht]
-\centering
-\includegraphics{supp_figures/R_vs_rho_indirect_simulation_and_analytic.pdf}
-\caption{\small [XXX details on simulation params]}
-\label{fig_R_vs_rho_sims}
-\end{figure}
+\begin{table}[h!]
+\caption{Genetic correlations across strata}
+\begin{center}
+ \begin{tabular}{|c | c | c |} 
+ \hline
+ \textbf{Trait/characteristic} & \textbf{Pair of strata} & \textbf{Genetic correlation (s.e.)} \\ [0.5ex] 
+ \hline\hline
+   & (Q1,Q2) & 0.93 (0.036)  \\ 
+   & (Q1,Q3) & 0.95 (0.035)  \\ 
+ BMI/Age & (Q1,Q4) & 0.95 (0.039)  \\ 
+   & (Q2,Q3) & 0.89 (0.032)  \\ 
+   & (Q2,Q4) & 0.91 (0.036)  \\ 
+   & (Q3,Q4) & 1.00 (0.040)  \\ 
+ \hline\hline
+  & (Q1,Q2) & 0.98 (0.054)  \\ 
+  & (Q1,Q3) & 0.99 (0.067)  \\ 
+ Years of schooling/SES & (Q1,Q4) & 0.93 (0.068)  \\ 
+  & (Q2,Q3) & 0.97 (0.063)  \\ 
+  & (Q2,Q4) & 1.09 (0.074)  \\ 
+  & (Q3,Q4) & 1.04 (0.074)  \\ 
+ \hline\hline
+ DBP/Sex & (male,female) & 0.93 (0.031)  \\ 
+ \hline
+ \end{tabular}
+ \end{center}
+\end{table}
 
-%\subsection{Consequences of direct-indirect correlation and significance threshold}
+
+%\subsubsection{Consequences of direct-indirect correlation and significance threshold}
 %\hl{to be completed}
 %
 %To gain some intuition we first note that \hl{[discuss with derivatives assuming fixed contribution across sites, add plot]} if indirect effects are strongly positively correlated with direct effects then prediction accuracy would be higher for standard GWAS than sib-regression.
