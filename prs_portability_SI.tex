@@ -87,7 +87,7 @@
 \renewcommand{\thesubfigure}{\Alph{subfigure}}
 % Include your paper's title here
 
-\title{Poor portability of polygenic scores even within an ancestry group} 
+\title{Supplementary Materials for: Variable portability of polygenic scores even within an ancestry group} 
 
 
 
@@ -127,7 +127,10 @@ where $n^{pairs}$ is the number of sib pairs, $h_{\beta}^2$ is the heritability 
 \paragraph{Indirect parental effects.}  In the presence of indirect parental effects, out-of-sample prediction accuracies takes a simple form. For a standard polygenic score, we get
 
 $$R_{ur}^2 = h^2\frac{1}{1+c},$$ where $h^2$ is the heritability contributed by both direct and indirect effects, and $c$ is a term representing noise to signal ratio in a standard GWAS,  For the sib-based polygenic score, we get
-$$E[R_{sib}^2] = (1+\rho \frac{\sigma_\eta}{\sigma_\beta})^2 h^2 \frac{1}{\alpha + c},$$ where $\sigma_\beta^2$ and $\sigma_\eta^2$ are the variances of random direct and indirect effects, respectively; $\rho$ is the correlation between direct and indirect effects and $\alpha$ is the ratio of heritability contributed by direct effects to the total genetic heritability $h^2$.  Our results suggest that under plausible conditions, the presence of indirect effects would lead to higher prediction accuracy in a standard GWAS,  even after the sample-size matching procedure.  This is true even if direct and indirect effects are positively correlated, uncorrelated or even somewhat negatively correlated ({\bf Fig.~\ref{fig_R_vs_rho_sims}}).
+\begin{equation}
+E[R_{sib}]^2 = (1+\rho \frac{\sigma_\eta}{\sigma_\beta})^2 h_\beta^2 \frac{1}{1 + c/\alpha}.
+\end{equation} where
+$$\alpha := h_\beta^2 / h^2=  \frac{\sum_i^mVar[x_i]\beta_i^2}{\sum_i^mVar[x_i](\beta_i+\eta_i)^2},$$ where $\sigma_\beta^2$ and $\sigma_\eta^2$ are the variances of random direct and indirect effects, respectively; $\rho$ is the correlation between direct and indirect effects and $\alpha$ is the ratio of heritability contributed by direct effects to the total genetic heritability $h^2$.  Our results suggest that under plausible conditions, the presence of indirect effects would lead to higher prediction accuracy in a standard GWAS,  even after the sample-size matching procedure.  This is true even if direct and indirect effects are positively correlated, uncorrelated or even somewhat negatively correlated ({\bf Fig.~\ref{fig_R_vs_rho_sims}}).
 
 \begin{figure}[!h]
 \centering
@@ -329,7 +332,7 @@ R_{sib} = \frac{\sum_i^mVar[x_i](\beta_i+\eta_i)\beta_i}{\sqrt{\tilde{C}+ Var[y]
 \end{equation}
 
 If we denote the heritability explained by both direct and indirect effects by
-$$h^2:=\sum_i^mVar[x_i](\beta_i+\eta_i)^2$$
+$$h^2:=\frac{\sum_i^mVar[x_i](\beta_i+\eta_i)^2}{Var[y]}$$
 and 
 $$c:=\frac{\sum_i^mVar[\hat{\beta}_i]E[x_i^2]}{\sum_i^mVar[x_i](\beta_i+\eta_i)^2}$$
 which can be thought of as a summary of estimation error--a weighted average of the coefficient of variation of effect estimators, then eq.~\ref{R_indirect_unrelated_longform} can be rewritten as
@@ -358,25 +361,44 @@ If we further assume that effects are randomly distributed, and are iid across s
   \rho \sigma_\beta \sigma_\eta & \sigma_\eta^2 
   \end{tabular}
 \right )\right ), 
-\] then eq.~\ref{R_indirect_sibs_longform}, in expectation, is:
+\] then the numerator of eq.~\ref{R_indirect_sibs_longform}, is
+$$E_{\beta,\eta}[\sum_i^mVar[x_i]\beta_i(\beta_i+\eta_i)]=\sum_i^mVar[x_i]E_{\beta_i,\eta_i}[\beta_i^2+\beta_i \eta_i]=\sum_i^mVar[x_i](\sigma_{\beta}^2+\rho \sigma_{\beta} \sigma_{\eta})$$
+thus eq.~\ref{R_indirect_sibs_longform}, in expectation, is:
+
 \begin{equation}
 \label{R_indirect_sibs_shortform}
-E[R_{sib}^2] = (1+\rho \frac{\sigma_\eta}{\sigma_\beta})^2 h^2 \frac{1}{\alpha + c}.
+E[R_{sib}]^2 = (1+\rho \frac{\sigma_\eta}{\sigma_\beta})^2 h_\beta^2 \frac{1}{1 + c/\alpha}.
 \end{equation} where
-$$\alpha := h^2 / h_\beta^2 =  \frac{\sum_i^mVar[x_i](\beta_i+\eta_i)^2}{\sum_i^mVar[x_i]\beta_i^2}.$$
-
+$$\alpha := h_\beta^2 / h^2=  \frac{\sum_i^mVar[x_i]\beta_i^2}{\sum_i^mVar[x_i](\beta_i+\eta_i)^2}.$$
 
 We examined the fit of this prediction to simulations.  We simulated the estimation of effects in a sib-GWAS and estimation in a unrelated sample GWAS---after choosing $n^*$ to match the variance of effect estimates.  Finally, we simulated polygenic score prediction in a sample of unrelated individuals (see {\bf Section \ref{indirect_sim_details}} for further detail).
 
+{\bf Fig.~\ref{fig_R_vs_rho_sims}} shows the the analytic result alongside simulation results for different correlation coefficients between indirect and direct effects.  We note that, even in the absence of correlation between indirect and direct effects, the polygenic score based on standard GWAS outperforms the sib-based polygenic score.  We discuss this and the dependency of the $\frac{R_{sib}^2}{R_{ur}^2}$ ratio on other parameters next.
+
+We can now directly compare the standard vs. sib-based polygenic scores prediction accuracy by dividing eq.~\ref{R_indirect_sibs_shortform} by eq.~\ref{R_indirect_unrelated_shortform}:
+$$\frac{E[R_{sib}]^2}{R_{ur}^2}=\left(1+\rho \frac{G_{R}}{G_{\beta}}\right)^{2}\alpha \frac{1+c}{1+c/\alpha}.$$
+Noting further that
+$$\left(1+\rho \frac{G_{R}}{G_{\beta}}\right)^{2} \alpha=\left(\frac{\sigma_\beta+\rho \sigma_\eta}{\sigma_\beta}\right)^{2} \frac{\sigma_\beta^{2}}{\sigma_\beta^{2}+2 \sigma_{\beta} \sigma_{\beta}+\sigma_{\eta}^{2}}=\rho^2 + \alpha (1-\rho^2),$$
+we get
+\begin{equation}
+\label{R2_ratio}
+\frac{E[R_{sib}]^2}{R_{ur}^2}=[\rho^2 + \alpha (1-\rho^2)]\frac{1+c}{1+c/\alpha}.
+\end{equation}
+
+\hl{discussion behavior, limit behavior and figure illustrating behavior}
+
+\hl{discussion of effect of p-value threshold, alongside simulations that include the ascertainment of SNPs}
+
 \vspace{0.5cm}
-{\bf Fig.~\ref{fig_R_vs_rho_sims}} shows the the analytic result alongside simulation results for different correlation coefficients between indirect and direct effects.  We note that, even in the absence of correlation between indirect and direct effects, the polygenic score based on standard GWAS outperforms the sib-based polygenic score.  This is because in this case $\alpha > 1$.  This is true as long as $c$ is nonzero (it approaches zero for very large estimation sample sizes). For realistic sample sizes, however, $c$ is nonzero.  As Fig.~\ref{fig_R_vs_rho_sims} demonstrates, unless the indirect and direct effects are strongly negatively correlated ($<0.5$), prediction accuracy will be higher using the standard GWAS with unrelated individuals.\\
+
+This is because in this case $\alpha < 1$.  This is true as long as $c$ is nonzero (it approaches zero for very large estimation sample sizes). For realistic sample sizes, however, $c$ is nonzero.  As Fig.~\ref{fig_R_vs_rho_sims} demonstrates, unless the indirect and direct effects are strongly negatively correlated ($<0.5$), prediction accuracy will be higher using the standard GWAS with unrelated individuals.\\
 
 \subsubsection{Indirect effects simulation details}
 \label{indirect_sim_details}
 For each set of individuals used for effect estimation or prediction, we first simulated mother-father pairs, assigning parental alleles as $Bernoulli(p_i)$, where $p_i$ denotes the effect allele frequency at site $i$.  We then sampled the parental alleles to generate offspring (one offspring per each mother-father pair to simulate a sample of unrelated individuals, and two offspring to generate sibling pairs). Phenotypes of the offspring were sampled from a Normal distribution with mean
 $$\sum_i^m\beta_ix_i+\eta_i({x}_i^p+{x}_i^m)$$ where ${x}_i^m$ and ${x}_i^p$ are the maternal and paternal effect allele counts, respectively, and variance 
 $$1-h^2.$$
-Using this approach we generated a set a of sibling pairs, and estimated SNP effect sizes using a sibling regression. We then calculated $n^*$ as follows: we simulated sets of unrelated individuals with a range of sample sizes. In each set, we performed simple linear regression of phenotype to genotype.  We then estimate a linear relationship between the inverse of the median standard error of effect size estimates (as a  dependent variable) and the square root of the sample size.  We then predicted, using this linear relationship, the sample size for the unrelated saet that gives a median standard error equal to the median standard error of sib-regression effect estimates ($n^*$).  Finally, we simulated a set of unrelated individuals with sample size $n^*$, and compared the prediction accuracy ($R^2$) of the polygenic score based on this sample and the s-b-based polygenic score. 
+Using this approach we generated a set a of sibling pairs, and estimated SNP effect sizes using a sibling regression. We then calculated $n^*$ as follows: we simulated sets of unrelated individuals with a range of sample sizes. In each set, we performed simple linear regression of phenotype to genotype.  We then estimated a linear relationship between the inverse of the median standard error of effect size estimates (as a  dependent variable) and the square root of the sample size.  We then predicted, using this linear relationship, the sample size for the unrelated set that gives a median standard error equal to the median standard error of sib-regression effect estimates ($n^*$).  Finally, we simulated a set of unrelated individuals with sample size $n^*$, and compared the prediction accuracy ($R^2$) of the polygenic score based on this sample and the sib-based polygenic score. 
 
 We used the following parameters:
 
@@ -398,17 +420,17 @@ We used the following parameters:
 \pagebreak
 
 \subsection{Assortative mating}
-We consider assortative mating on phenotype, whereby mating of individuals in the population is dependent on the degree of their similarity with respect to that phenotype.  This process generates correlation between genetic variants that contribute to the phenotype.  Consequently, in a standard GWAS approach, the marginal effects of causal SNPs will partially capture the effect of other causal SNPs as well. Thus, GWAS effect sizes are expected to be inflated under positive assoratative mating (mating of similar individuals) and deflated under negative assortative mating (mating of dissimilar individuals). In turn, in a sibling-based GWAS, the expected  effect estimates are in expectation unaffected by assortative mating, because genetic differences between siblings are largely driven by random Mendelian segregation in the parents alone. 
+We consider assortative mating on phenotype, whereby mating of individuals in the population is dependent on the degree of their similarity with respect to that phenotype.  This process generates correlation between genetic variants that contribute to the phenotype.  Consequently, in a standard GWAS approach, the marginal effects of causal SNPs will partially capture the effect of other causal SNPs as well. Thus, GWAS effect sizes are expected to be inflated under positive assoratative mating (mating of similar individuals) and deflated under negative assortative mating (mating of dissimilar individuals). In turn, in a sibling-based GWAS, the expected effect estimates are in expectation unaffected by assortative mating, because genetic differences between siblings are largely driven by random Mendelian segregation in the parents alone. 
 
 \subsubsection{Assortative mating simulations}
 We used simulations to examine the phenotypic prediction accuracy of sibling-based and standard polygenic scores in a sample of unrelated individuals under assortative mating, varying the correlation between parental phenotypes $\rho_a$. Similar to our simulations for indirect effects ({\bf Section~\ref{indirect_sim_details}}), we first simulated the estimation of effects in a sibling-based and in a standard GWAS (with sample size $n^*$). We then computed the prediction accuracy $R^2$ in an independent sample of unrelated individuals (see {\bf Further simulation details} below).\\
 
-As shown in {\bf Fig.~\ref{fig_assort_mate}A} We first considered the simple case of a single generation of assortative mating.  In the presence of positive assortative mating ($\rho_a>0$) standard polygenic score based on unrelated samples outperforms sib-based polygenic score, whereas the opposite is true in the case of negative assortative mating ($\rho_a<0$).  Simulating two generations of assortative mating amplified the gaps between standard and sib-based predictions ({\bf Fig.~\ref{fig_assort_mate}B}), suggesting that our qualitative findings apply to scenarios of sustained assortative mating.  We further investigated prediction accuracy as a function of number of SNPs included in the polygenic scores, progressively adding SNPs prioritized based on an independent GWAS in unrelated samples (similar to our analysis in {\bf Fig. 3}). We considered two genetic architectures scenarios, (i) all SNPs are causal and (ii) 20\% of of SNPs are causal (leading polygenic scores to include non causal SNPs due to estimation noise).  Under both scenarios, the gap between standard and sib-based grows with the number SNPs ({\bf Fig.~\ref{fig_assort_mate}C-F}).\\
+We first considered the simple case of a single generation of assortative mating. In the presence of positive assortative mating ($\rho_a>0$) standard polygenic score based on unrelated samples outperforms sib-based polygenic score, whereas the opposite is true in the case of negative assortative mating ($\rho_a<0$) ({\bf Fig.~\ref{fig_assort_mate}A}). Simulating two generations of assortative mating amplified the gaps between standard and sib-based predictions ({\bf Fig.~\ref{fig_assort_mate}B}), suggesting that our qualitative findings apply to scenarios of sustained assortative mating. We further investigated prediction accuracy as a function of number of SNPs included in the polygenic scores, progressively adding SNPs prioritized based on an independent GWAS in unrelated samples (similar to our analysis in {\bf Fig. 3}). We considered two genetic architectures scenarios, (i) all SNPs are causal and (ii) 20\% of of SNPs are causal (leading polygenic scores to include non causal SNPs due to estimation noise). Under both scenarios, the gap between standard and sib-based grows with the number SNPs ({\bf Fig.~\ref{fig_assort_mate}C-F}).\\
 
-\paragraph{Further simulation details}
+\paragraph{Further simulation details.}
 \label{assortative_sim_details} 
 We simulated parental and offspring alleles as described for indirect effects in {\bf Section \ref{indirect_sim_details}}. To simulate assortative mating between parents, we first simulated iid genotypes (effect allele counts $x_i$ at each SNP $i$) and randomly assigned "mother" and "father" labels to each individual. We then generated corresponding parental phenotypes as
-$$N(\sum_i^m\beta_ix_i,\sqrt{1-h^2})$$ where  $beta_i$ is the effect of SNP $i$, and $h^2$ is the heritability.  The same model was used later to generate offspring phenotypes.
+$$N(\sum_i^m\beta_ix_i,\sqrt{1-h^2})$$ where  $\beta_i$ is the effect of SNP $i$, and $h^2$ is the heritability.  The same model was used later to generate offspring phenotypes.
 
 We paired mothers and fathers as follows: we generated a random matrix  
 \[ 
@@ -417,7 +439,7 @@ We paired mothers and fathers as follows: we generated a random matrix
   $u_{m,i}$ \\
   $u_{p,i}$
   \end{tabular}
-\right ) \sim
+\right ) \sim N
 \left ( \left (
   \begin{tabular}{c}
   $\overline{y}_m$ \\
@@ -430,9 +452,9 @@ We paired mothers and fathers as follows: we generated a random matrix
   $\rho_a \sigma_{y_m} \sigma_{y_p}$ & $\sigma_{y_p}^2$ 
   \end{tabular}
 \right )\right ), 
-\] where $\overline{y}_m$ and $\overline{y}_p$ are the average phenotypes of mothers and fathers, respectively, $\sigma_{y_m}$ and $\sigma_{y_p}$ are the phenotypic sample standard errors of mothers and fathers, respectively, and $\rho_a$ is the desired correlation between parental phenotypes.  We then reorder mothers and fathers sets to match the order of $u_m$ and $u_p$, respectively. In the case of two generations of assortative mating, we similarly simulated the generation of the grandparents.\\
+\] where $\overline{y}_m$ and $\overline{y}_p$ are the average phenotypes of mothers and fathers, respectively, $\sigma_{y_m}$ and $\sigma_{y_p}$ are the sample standard errors of the phenotypes of mothers and fathers, respectively, and $\rho_a$ is the desired correlation between parental phenotypes.  We then reorder mothers and fathers sets to match the order of $u_m$ and $u_p$, respectively. In the case of two generations of assortative mating, we similarly simulated the generation of the grandparents.\\
 
-We compared the performance of standard and sibling-based polygenic scores using the same procedure as described in {\bf Section \ref{indirect_sim_details}}. We additionally investigated the effect of number of SNPs included in the polygenic scores. For this analysis we sorted the SNPs based association p-value in an independent simulated set of unrelated individuals.\\ 
+We compared the performance of standard and sibling-based polygenic scores using the same procedure as described in {\bf Section \ref{indirect_sim_details}}. We additionally investigated the effect of number of SNPs included in the polygenic scores. For this analysis we sorted the SNPs based on association p-value in an independent simulated set of unrelated individuals.\\ 
 
 We used the following parameters:
 
