@@ -331,16 +331,20 @@ and
 R_{sib} = \frac{\sum_i^mVar[x_i](\beta_i+\eta_i)\beta_i}{\sqrt{\tilde{C}+ Var[y]\sum_i^mVar[x_i]\beta_i^2}}.
 \end{equation}
 
-If we denote the heritability explained by both direct and indirect effects by
+If we denote the heritability explained by direct effects by
+$$h_{\beta}^2:=\frac{\sum_i^mVar[x_i]\beta_i^2}{Var[y]},$$
+the heritability explained by indirect effects by
+$$h_{\beta}^2:=\frac{\sum_i^mVar[x_i]\eta_i^2}{Var[y]},$$
+the heritability explained by both direct and indirect effects by
 $$h^2:=\frac{\sum_i^mVar[x_i](\beta_i+\eta_i)^2}{Var[y]}$$
-and 
-$$c:=\frac{\sum_i^mVar[\hat{\beta}_i]E[x_i^2]}{\sum_i^mVar[x_i](\beta_i+\eta_i)^2}$$
-which can be thought of as a summary of estimation error--a weighted average of the coefficient of variation of effect estimators, then eq.~\ref{R_indirect_unrelated_longform} can be rewritten as
+then eq.~\ref{R_indirect_unrelated_longform} can be rewritten as
 \begin{equation}
 \label{R_indirect_unrelated_shortform}
-R_{ur}^2 = h^2\frac{1}{1+c}.
+R_{ur}^2 = h^2\frac{1}{1+c},
 \end{equation}
-
+where we defined
+$$c:=\frac{\sum_i^mVar[\hat{\beta}_i]E[x_i^2]}{\sum_i^mVar[x_i](\beta_i+\eta_i)^2}.$$
+$c$ can be thought of as a summary of estimation error--a weighted average of the coefficient of variation of effect estimators,
 If we further assume that effects are randomly distributed, and are iid across sites (in particular this assumes an independence of effect size and allele frequency),
 \[ 
 \left (
@@ -375,14 +379,14 @@ We examined the fit of this prediction to simulations.  We simulated the estimat
 
 {\bf Fig.~\ref{fig_R_vs_rho_sims}} shows the the analytic result alongside simulation results for different correlation coefficients between indirect and direct effects.  We note that, even in the absence of correlation between indirect and direct effects, the polygenic score based on standard GWAS outperforms the sib-based polygenic score.  We discuss this and the dependency of the $\frac{R_{sib}^2}{R_{ur}^2}$ ratio on other parameters next.
 
-We can now directly compare the standard vs. sib-based polygenic scores prediction accuracy by dividing eq.~\ref{R_indirect_sibs_shortform} by eq.~\ref{R_indirect_unrelated_shortform}:
+We can directly compare the standard vs. sib-based polygenic scores prediction accuracy by dividing eq.~\ref{R_indirect_sibs_shortform} by eq.~\ref{R_indirect_unrelated_shortform}:
 $$\frac{E[R_{sib}]^2}{R_{ur}^2}=\left(1+\rho \frac{G_{R}}{G_{\beta}}\right)^{2}\alpha \frac{1+c}{1+c/\alpha}.$$
 Noting further that
-$$\left(1+\rho \frac{G_{R}}{G_{\beta}}\right)^{2} \alpha=\left(\frac{\sigma_\beta+\rho \sigma_\eta}{\sigma_\beta}\right)^{2} \frac{\sigma_\beta^{2}}{\sigma_\beta^{2}+2 \sigma_{\beta} \sigma_{\beta}+\sigma_{\eta}^{2}}=\rho^2 + \alpha (1-\rho^2),$$
+$$\left(1+\rho \frac{G_{R}}{G_{\beta}}\right)^{2} \alpha=\left(\frac{\sigma_\beta+\rho \sigma_\eta}{\sigma_\beta}\right)^{2} \frac{\sigma_\beta^{2}}{\sigma_\beta^{2}+2 \sigma_{\beta} \sigma_{\beta}+\sigma_{\eta}^{2}}=1-(1-\rho^2)\frac{h_\eta^2}{h^2},$$
 we get
 \begin{equation}
 \label{R2_ratio}
-\frac{E[R_{sib}]^2}{R_{ur}^2}=[\rho^2 + \alpha (1-\rho^2)]\frac{1+c}{1+c/\alpha}.
+\frac{E[R_{sib}]^2}{R_{ur}^2}=[ 1-(1-\rho^2) \frac{h_\eta^2}{h^2}]\frac{1+c}{1+c\frac{h^2}{h_\beta^2}}.
 \end{equation}
 
 \hl{discussion behavior, limit behavior and figure illustrating behavior}
