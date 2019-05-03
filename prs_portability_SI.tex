@@ -132,10 +132,21 @@ E[R_{sib}^2] = (1+\rho \frac{\sigma_\eta}{\sigma_\beta})^2 h_\beta^2 \frac{1}{1 
 \end{equation} where
 $$\alpha := h_\beta^2 / h^2=  \frac{\sum_i^mVar[x_i]\beta_i^2}{\sum_i^mVar[x_i](\beta_i+\eta_i)^2},$$ where $\sigma_\beta^2$ and $\sigma_\eta^2$ are the variances of random direct and indirect effects, respectively, $\rho$ is the correlation between direct and indirect effects, and $\alpha$ is the ratio of heritability contributed by direct effects to the total genetic heritability $h^2$.  Our results suggest that under plausible conditions, the presence of indirect effects would lead to higher prediction accuracy in a standard GWAS (after our estimation noise matching procedure).  This result holds whether direct and indirect effects are positively correlated, uncorrelated or even somewhat negatively correlated ({\bf Fig.~\ref{fig_R_vs_rho_sims}}).
 
+
+
 \begin{figure}[!h]
+\label{fig:prediction_accuracy_strata_r2_including_covariates}
+\centering
+\includegraphics[width=0.7\textwidth]{supp_figures/supp_raw_R2_to_env_boxplot_nice.pdf}
+\caption[Variable prediction accuracy (measured as R2) even withn an ancestry group.]{\small Variable prediction accuracy (measured as $R^2$) even withn an ancestry group.  This figure mirrors Fig.~1 of the main text, except for the y-axis showing Shown are $R^2$ values (rather that incremental $R^2$) in different prediction sets. Each box and whiskers plot is computed based on twenty choices of estimation and prediction sets. Thick horizontal lines denote the medians.  {\bf (A,C,E)} The polygenic scores were estimated in large samples of unrelated WB individuals. Phenotypes were then predicted in distinct samples of unrelated WB individuals, stratified by sex (A), age (C) or Townsend deprivation index, a measure of SES (E).  {\bf (B,D,F)} Same as in A,C,E, but here the polygenic scores are based on a GWAS in a sample limited to one sex, age or SES group.  When the GWAS is performed in the group that showed higher prediction accuracy in A,C,E (female, young, low SES), the qualitative trend is the same; but when the GWAS is performed in males, old or high SES, prediction accuracy is diminished and similar across sets.}
+\end{figure}
+
+
+\begin{figure}[!h]
+% \label{fig:indirect_simulations}
 \centering
 \includegraphics[width=0.7\textwidth]{supp_figures/indirect.pdf}
-\caption[Prediction accuracy in sib and standard GWAS in the presence of indirect effects.]{\small Prediction accuracy in sib and standard GWAS in the presence of indirect effects.  The simulations were performed with a heritability of 0.5 coming from direct effects and 0.1 from indirect effects.  The size of the estimation set for the sib-GWAS based polygenic score was 15,000, and the size of the estimation set for the standard GWAS was chosen such that the standard errors of the effect size estimates roughly match between the two study designs. As long as direct and indirect effects are not strongly negatively correlated ($<0.5$), out-of-sample prediction accuracy is higher for the standard GWAS-based polygenic scores.}
+\caption[Simulation results for standard for sib-based polygenic scores in the presence of indirect effects.]{\small Simulation results for standard for sib-based polygenic scores in the presence of indirect effects.  Simulations were performed with $h_\beta=0.5$ and $h_\eta=0.1$.  The size of the estimation set in the sib GWAS was 15,000, and the size of the estimation set in the standard GWAS was chosen to match estimation noise between the two study designs.  As long as direct and indirect effects are not strongly negatively correlated, out-of-sample prediction accuracy is higher for the standard GWAS-based polygenic scores.}
 \label{fig_R_vs_rho_sims}
 \end{figure}
 
@@ -547,12 +558,24 @@ In the simulations, we used the following parameter values:
 
 \begin{figure}[h!]
 \centering
+\includegraphics[width=\textwidth]{./supp_figures/sibs_unrel_compare1.pdf}
+\caption{sibs vs unrel: age, ses, sex ratio}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{./supp_figures/sibs_unrel_compare2.pdf}
+\caption{sibs vs unrel: PCs}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
 \includegraphics[width=10cm]{./supp_figures/fig3_panelA_SI.pdf}
 \caption{repeat of Fig 3 with residualized phenotypes}
 \end{figure}
 
 \begin{table}[h!]
-\caption{List of traits}
+\caption{List of traits analyzed}
 \begin{center}
  \begin{tabular}{| l l |} 
  \hline
