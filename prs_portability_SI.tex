@@ -87,7 +87,7 @@
 \renewcommand{\thesubfigure}{\Alph{subfigure}}
 % Include your paper's title here
 
-\title{Supplementary Materials for: Variable portability of polygenic scores even within an ancestry group} 
+\title{Supplementary Materials for: Variable portability of polygenic scores within an ancestry group} 
 
 
 
@@ -108,73 +108,45 @@
   \tableofcontents
 \endgroup
 
-\listoffigures
 \listoftables
+\listoffigures
 
 \pagebreak
 
 \beginsupplement
 
-\section{Prediction accuracy in standard GWAS and sib-regression}
+\section{Prediction accuracies of polygenic scores based on standard and sib-GWAS}
 \subsection{Overview of derived results}
-In the main text, we compare the prediction accuracies of polygenic scores (PGS) based on standard GWAS (of unrelated individuals) and a GWAS based on sibling differences for a number of traits. Here, we describe how this comparison is implemented, and how indirect effects and assortative mating manifest in this comparison.   
+In the main text, we compare the prediction accuracies of polygenic scores (PGS) based on a standard GWAS of unrelated individuals and a GWAS based on sibling differences, for a number of traits. Here, we describe how this comparison is implemented, and how indirect effects and assortative mating manifest in this comparison.   
 
-\paragraph{Matching standard and sib-based prediction accuracy.} Current standard GWAS are based on huge sample sizes, leading to less noisy estimates than are afforded by family association studies like sib regression, which are typically much smaller.  This difference in precision needs to be taken into account in making comparisons between the prediction accuracy of scores derived from the two approaches.  We show that under a null model of no assortative mating, indirect effects, population structure (or other complications), and if the standard GWAS is subsampled to a sample size 
+\paragraph{Matching standard and sib-based prediction accuracies.} Current standard GWAS are based on huge sample sizes, leading to less noisy estimates than are afforded by family association studies such as those based on sib differences, which are typically much smaller.  This difference in precision needs to be taken into account in making comparisons between the prediction accuracy of scores derived from the two approaches.  We show that under a vanilla additive model with no assortative mating, indirect effects, population structure (or other complications), and if the standard GWAS is subsampled to a sample size 
 
-$$n^* \approx \frac{1}{1+(1-h_{\beta}^2)(1-2\rho_{sibs})}n^{pairs},$$
-where $n^{pairs}$ is the number of sib pairs, $h_{\beta}^2$ is the heritability and $\rho_{sibs}$ is the correlation in environmental effects experienced of sibs, the two study designs are expected to have the same (out-of-sample) prediction accuracy (see Section \ref{matching_errors_under_the_null}).  This analytic result is not that useful in practice, however; in particular, it requires prior knowledge about the environmental correlation between sibs.  Instead, we take an empirical approach to match the prediction accuracy in the two approaches: following  \cite{wood2014defining}, we subsample the regular GWAS to match the median standard errors of the sib-based GWAS.  As we show in {\bf Section \ref{Empiricalmatchingofstandarderrors}}, under the null, we then expect near-equal out-of-sample prediction accuracies for polygenic scores derived from the two study designs.  
+$$n^* \approx \frac{1}{1+(1-h^2)(1-2\rho_{sibs})}n^{pairs},$$
+where $n^{pairs}$ is the number of sib pairs, $h^2$ is the heritability and $\rho_{sibs}$ is the correlation in environmental effects experienced by siblings, the two study designs are expected to have the same (out-of-sample) prediction accuracy (see {\bf Section \ref{matching_errors_under_the_null}}).  This analytic result is not that useful in practice, however; in particular, it requires prior knowledge about the extent to which environmental effects correlate among siblings.  Instead, we took an empirical approach to match the prediction accuracies in the two approaches: following  \cite{wood2014defining}, we subsampled the regular GWAS to match the median standard errors of the sib-GWAS.  As we show in {\bf Section \ref{Empiricalmatchingofstandarderrors}}, under our vanilla model, we then expect near identical out-of-sample prediction accuracies for polygenic scores derived from the two study designs.  
 
-\paragraph{Indirect parental effects.}  In the presence of indirect parental effects, out-of-sample prediction accuracies takes a simple form. For a standard polygenic score, we obtain
+\paragraph{Indirect parental effects.}  In the presence of indirect parental effects, the out-of-sample prediction accuracy takes a simple form. For a polygenic score based on a standard GWAS, we obtain
 
-$$E[R_{ur}^2] = h^2\frac{1}{1+c},$$ where $h^2$ is the heritability contributed by both direct and indirect effects, and $c$ is a term representing noise to signal ratio in a standard GWAS.  For the sib-based polygenic score, we obtain
-\begin{equation}
-E[R_{sib}^2] = (1+\rho \frac{\sigma_\eta}{\sigma_\beta})^2 h_\beta^2 \frac{1}{1 + c/\alpha}.
-\end{equation} where
-$$\alpha := h_\beta^2 / h^2=  \frac{\sum_i^mVar[x_i]\beta_i^2}{\sum_i^mVar[x_i](\beta_i+\eta_i)^2},$$ where $\sigma_\beta^2$ and $\sigma_\eta^2$ are the variances of random direct and indirect effects, respectively, $\rho$ is the correlation between direct and indirect effects, and $\alpha$ is the ratio of heritability contributed by direct effects to the total genetic heritability $h^2$.  Our results suggest that under plausible conditions, the presence of indirect effects would lead to higher prediction accuracy in a standard GWAS (after our estimation noise matching procedure).  This result holds whether direct and indirect effects are positively correlated, uncorrelated or even somewhat negatively correlated ({\bf Fig.~\ref{fig_R_vs_rho_sims}}).
+$$E[R_{ur}^2] = \tau^2\frac{1}{1+c},$$ where $\tau^2$ is the ratio of the variance in the trait due to both direct effects and indirect effects of transmitted parental alleles over the total phenotypic variance; and $c$ is a term representing the noise to signal ratio in a standard GWAS.  For the polygenic score based on sib-GWAS, we obtain
+$$E[R_{sib}^2] = (1+\rho \frac{\sigma_\eta}{\sigma_\beta})^2 h_\beta^2 \frac{1}{1 + c \tau^2/h_\beta^2}.
+$$ where $\sigma_\beta^2$ and $\sigma_\eta^2$ are the variances of random direct and indirect effects, respectively, $\rho$ is the correlation between direct and indirect effects, and $h_{\beta}^2$ is the proportion of the phenotypic variance explained by direct effects.  Our results suggest that under plausible conditions, the presence of indirect effects would lead to higher prediction accuracy in a standard GWAS (after our sampling variance matching procedure).  This result holds whether direct and indirect effects are positively correlated, uncorrelated or even somewhat negatively correlated ({\bf Fig.~\ref{fig_R_vs_rho_sims}}).
 
+\paragraph{Assortative mating.}  We investigated several models of assortative mating by simulation. Standard GWAS-based polygenic scores have greater prediction accuracies than those based on sib-GWAS when the parental phenotypes are positively correlated, and the reverse is true if they are negatively correlated ({\bf Fig.~\ref{fig_assort_mate}A,B}).  The relative difference in prediction accuracies of the two study designs grows with the inclusion of more SNPs in the polygenic score model ({\bf Fig.~\ref{fig_assort_mate}D,F}).\\
 
-
-\begin{figure}[!h]
-\label{fig:prediction_accuracy_strata_r2_including_covariates}
-\centering
-\includegraphics[width=0.7\textwidth]{supp_figures/supp_raw_R2_to_env_boxplot_nice.pdf}
-\caption[Variable prediction accuracy (measured as R2) even withn an ancestry group.]{\small Variable prediction accuracy (measured as $R^2$) even withn an ancestry group.  This figure mirrors Fig.~1 of the main text, except for the y-axis showing Shown are $R^2$ values (rather that incremental $R^2$) in different prediction sets. Each box and whiskers plot is computed based on twenty choices of estimation and prediction sets. Thick horizontal lines denote the medians.  {\bf (A,C,E)} The polygenic scores were estimated in large samples of unrelated WB individuals. Phenotypes were then predicted in distinct samples of unrelated WB individuals, stratified by sex (A), age (C) or Townsend deprivation index, a measure of SES (E).  {\bf (B,D,F)} Same as in A,C,E, but here the polygenic scores are based on a GWAS in a sample limited to one sex, age or SES group.  When the GWAS is performed in the group that showed higher prediction accuracy in A,C,E (female, young, low SES), the qualitative trend is the same; but when the GWAS is performed in males, old or high SES, prediction accuracy is diminished and similar across sets.}
-\end{figure}
-
-
-\begin{figure}[!h]
-% \label{fig:indirect_simulations}
-\centering
-\includegraphics[width=0.7\textwidth]{supp_figures/indirect.pdf}
-\caption[Simulation results for standard for sib-based polygenic scores in the presence of indirect effects.]{\small Simulation results for standard for sib-based polygenic scores in the presence of indirect effects.  Simulations were performed with $h_\beta=0.5$ and $h_\eta=0.1$.  The size of the estimation set in the sib GWAS was 15,000, and the size of the estimation set in the standard GWAS was chosen to match estimation noise between the two study designs.  As long as direct and indirect effects are not strongly negatively correlated, out-of-sample prediction accuracy is higher for the standard GWAS-based polygenic scores.}
-\label{fig_R_vs_rho_sims}
-\end{figure}
-
-\paragraph{Assortative mating.}  We investigate several models of assortative mating by simulation. Standard GWAS-based polygenic scores have greater prediction accuracies than those based on sib regession when parents' phenotypes are positively correlated, and the reverse is true if they are negatively correlated ({\bf Fig.~\ref{fig_assort_mate}A,B}).  Somewhat counter-intuitively, the relative difference in prediction accuracy of the two study designs grows with the inclusion of more SNPs in the polygenic score model ({\bf Fig.~\ref{fig_assort_mate}D,F}).
-
-Throughout, we ignore the ascertainment step where it is decided which SNPs to include in the polygenic score. We assume that SNPs are pre-ascertained and that the set of ascertained SNPs include all causal ones.  We therefore loosely refer to the standard regression on ascertained SNPs (i.e., in a sample of unrelated individuals) and sib regression (regressing difference in phenotypes to difference in sib genotypes) as standard GWAS and sib GWAS, respectively. 
-\pagebreak
-
-\begin{figure}[!th]
-\centering
-\includegraphics[width=0.7\textwidth]{supp_figures/assort_mate.pdf}
-\caption[Prediction accuracy in sib and standard GWAS in the presence of assortative mating.]{\small TBA.}
-\label{fig_assort_mate}
-\end{figure}
+In our analytic considerations, we ignored the ascertainment step of our study design, in which it is decided which SNPs to include in the polygenic score. We assumed that SNPs are pre-ascertained and that the set of ascertained SNPs includes all causal ones. In a subset of simulations, we implemented the ascertainment step based on an independent simulated GWAS (see below).  In both settings, we refer (somewhat loosely therefore) to the regression on ascertained SNPs in a sample of unrelated individuals as ``standard GWAS'' and the regression of the difference in phenotypes on the difference in sib genotypes as ``sib-GWAS.'' 
 
 \pagebreak
 
-\subsection{Matching sib-regression and standard GWAS sample sizes}
+\subsection{Picking the sample size of the standard GWAS sample to match the prediction accuracy of the score based on the sib-GWAS}
 \label{matching_errors_under_the_null}
 
-We look for the sample size $n^*$ of a standard GWAS performed on sample of unrelated individuals such that, under a simple null model, the resulting polygenic score has the same prediction accuracy out-of-sample as the polygenic score obtained from sib GWAS with sample size $n_{pairs}$.  We begin by assuming that all causal sites $i$ are known and unlinked, and that there is no population stratification or assortative mating.  We  first find the noise associated with estimating the effect size for a single site in each of the two study designs.  We will then examine (and ultimately match) the prediction accuracy of the polygenic scores composed from effect sizes estimated in the estimation sets, $\hat{\beta}_{ur},\hat{\beta}_{sib}$, on a new, independent prediction sample of unrelated individuals $\{(x',y')\}$.
+We look for the sample size $n^*$ of a standard GWAS performed on sample of unrelated individuals such that, under our vanilla model, the resulting polygenic score has the same (out-of-sample) prediction accuracy as the polygenic score obtained from a sib-GWAS with sample size $n_{pairs}$.  We begin by assuming that all causal sites $i$ are known; that they are unlinked; that they have only additive, direct effects on the phenotype; and that there is no population stratification or assortative mating.  We first find the sampling variance of the effect size estimate for a single site obtained from each of the two study designs.  We will then examine (and ultimately match) the prediction accuracy of the polygenic scores obtained from effect sizes estimated in the estimation sets, $\hat{\beta}_{ur},\hat{\beta}_{sib}$, on a new, independent prediction sample of unrelated individuals $\{(x',y')\}$.
 
-\subsubsection{Error of the estimated effect size at a single site}
-Our model for the phenotype value $y$ is
+\subsubsection{Sampling error of the estimated effect size at a single site}
+Our model for the phenotypic value $y$ is
 $$y=g+e$$
-where $e$ is a Normally distributed environmental effect (including all random noise) and
+where $e$ is a Normally distributed environmental effect (which includes all sources of random noise) and
 $$g=\beta^{ur}_0+\sum_{i}\beta_ix_i$$ 
-where $x_i \in \{0,1,2\}$ are random genotypes.  The genotype is coded as the effect allele count---the number of alleles with effect $\beta_i$ carried by the individual at site $i$.  We can rewrite our model to focus on the effect size at a single site $i$:
+where $x_i \in \{0,1,2\}$ are random genotypes.  The genotype is coded as the the number of alleles with effect $\beta_i$ carried by the individual at site $i$.  Effect sizes $\beta=\{\beta_i\}$ are treated as fixed parameters throughout (except when noted otherwise in the very last step leading to eq.~\ref{R_indirect_sibs_shortform}).  We can rewrite our model to focus on the effect size at a single site $i$:
 \begin{equation}
 \label{ols_model}
 y=\beta_0+\beta_ix_i+\epsilon_i,
@@ -182,63 +154,77 @@ y=\beta_0+\beta_ix_i+\epsilon_i,
 where 
 $$\epsilon_i=g-\beta_i x_i+e,$$
 with variance
-$$Var[\epsilon_i]=Var[g-\beta_i x_i]+Var[e] = Var[y]-ֿ\beta_i^2Var[x_i].$$
-In OLS regression for the effect of an allele at site $i$, the standard error is
-$$Var[\hat{\beta}^{ur}_i]=\frac{Var[\epsilon_i]}{(n-1) Var[x_i^{ur}]} = \frac{Var[y]-ֿ\beta_i^2Var[x_i]}{(n-1)Var[x_i]},$$
-where $n$ is the sample size.  In sib GWAS our model for site $i$ is
+$$Var[\epsilon_i]=Var[g-\beta_i x_i]+Var[e] = Var[y]-\beta_i^2Var[x_i]$$
+In an OLS regression, the standard error for the effect of an allele at site $i$ is
+\begin{equation}
+\label{var_beta_hat_ur}
+Var[\hat{\beta}^{ur}_i]=\frac{Var[\epsilon_i]}{(n-1) Var[x_i]} = \frac{Var[y]-ֿ\beta_i^2Var[x_i]}{(n-1)Var[x_i]},
+\end{equation}
+where $n$ is the sample size.  In sib-GWAS, our model for site $i$ is
 $$\Delta y=\beta^{s}_0+\beta_i \Delta x_i+\Delta \epsilon_i,$$
 with variance
 $$Var[\Delta \epsilon_i] = Var[\Delta g-\beta_i \Delta x_i] + Var[\Delta e] =$$
-$$Var[\Delta g]+\beta_i^2Var[\Delta x_i]-2\beta_i^2 Var[\Delta x_i]+ Var[\Delta e]$$
-Using the $A$ and $B$ subscripts to denote sibs. Recall that for sibs we expect
+$$Var[\Delta g]+\beta_i^2Var[\Delta x_i]-2\beta_i^2 Var[\Delta x_i]+ Var[\Delta e].$$
+
+Recall that for siblings (denoted with subscripts $A$ and $B$), we expect
 $$Cov[x_{i,A},x_{i,B}]=\frac{1}{2}Var[x_i],$$
 $$Cov[g_A,g_B]=\frac{1}{2}Var[g].$$
-Plugging this back in we get
-$$Var[\Delta \epsilon_i] = Var[g] - \beta_i^2var[x_i] + 2Var[e](1-\rho_{sibs}) $$
-where $\rho_{sibs} = Cor[e_A,e_B]$ is the correlation in environmental effect between sibs. The variance of the estimated effect size in sib GWAS is therefore
-$$Var[\hat{\beta}^{s}_i]=\frac{Var[\Delta \epsilon_i]}{(n_{pairs}-1) Var[\Delta x_i]} = \frac{Var[y] - \beta_i^2var[x_i] + Var[e](1-2\rho_{sibs})}{(n_{pairs}-1) Var[x_i]}.$$
+Plugging these back in, we obtain
+$$Var[\Delta \epsilon_i] = Var[g] - \beta_i^2Var[x_i] + 2Var[e](1-\rho_{sibs}) $$
+where $\rho_{sibs} = Cor[e_A,e_B]$ is the correlation in environmental effects between sibs. The variance of the estimated effect size in sib-GWAS is therefore
+\begin{equation}
+\label{var_beta_hat_sibs}
+Var[\hat{\beta}^{s}_i]=\frac{Var[\Delta \epsilon_i]}{(n_{pairs}-1) Var[\Delta x_i]} = \frac{Var[y] - \beta_i^2Var[x_i] + Var[e](1-2\rho_{sibs})}{(n_{pairs}-1) Var[x_i]}.
+\end{equation}
 
 
 \subsubsection{Sample size required for matched prediction accuracy}
 
-We will measure prediction accuracy as the expected correlation between the polygenic score function $\hat{g}$ and the phenotype in an independent prediction set \{(x',y')\},
-$$R = \frac{Cov[\hat{g}(x'),y']}{\sqrt{Var[y']Var[\hat{g}(x')}]},$$
+We measure prediction accuracy as the expected squared correlation between polygenic scores $\hat{g}$ and phenotypic values in an independent prediction set of unrelated individuals, denoted $\{(x',y')\}$,
+
+$$E[R^2] = \frac{Cov^2[\hat{g}(x'),y']}{{Var[y']Var[\hat{g}(x')}]},$$
 by requiring 
-
 \newcommand\reqeq{\mathrel{\stackrel{\makebox[0pt]{\mbox{\normalfont\tiny !}}}{=}}}
-
-$$R(standard~GWAS~with~sample~size~n^*) \reqeq R(sib~regression~with~sample~size~n_{pairs})$$
+$$E[R^2(standard~GWAS~with~sample~size~n^*)] \reqeq E[R^2(sib~regression~with~sample~size~n_{pairs})]$$
 or equivalently
 \begin{equation}
 \label{matched_nstar}
-\frac{Cov[\hat{g}_{sib}(x'),y']}{\sqrt{Var[\hat{g}_{sib}(x')]}} \reqeq \frac{Cov[\hat{g}_{ur}(x'),y']}{\sqrt{Var[\hat{g}_{ur}(x')]}}.
-\end{equation}
-We find a sample size $n^*$ to use in the estimator $\hat{g}_{ur}$ that satisfies this condition.  We note that if the vector of estimates $\hat{\beta}$ is given then
-$$ Cov[y',\hat{g}(x')|\hat{\beta}]=Cov[g(x'),g(x')]+\sum_i^m{x_i'(\hat{\beta}_i-\beta_i)}|\hat{\beta}] = $$
-$$Var[g(x')|\hat{\beta}]+\sum_i^m{Cov[\beta_ix_i',(\hat{\beta}_i-\beta_i)x_i'}|\hat{\beta}]=\sum_i^mVar[x_i']\beta_i\hat{\beta}_i,$$
-However, to incorporate the uncertainty both in the estimation set (summarized by the Multivariate Normal distribution of $\hat{\beta}$) and the prediction set (the randomness of $(x',y')$) we will use the law of total covariance,
-$$ Cov[y',\hat{g}(x')]=E_{\hat{\beta}}[Cov_{(x',y')}[y',\hat{g}(x')|\{\hat{\beta}\}]]+Cov_{\hat{\beta}}[E_{(x',y')}[Cov[y'|\{\hat{\beta}\}],E_{(x',y')}[\hat{g}(x')|\{\hat{\beta}\}]]=$$
-$$E_{\hat{\beta}}\sum_i^mVar[x_i']\beta_i\hat{\beta}_i+Cov_{\hat{\beta}}[\sum_i^mE[x_i']\beta_i,\sum_i^mE[x_i']\hat{\beta}_i]=\sum_i^mVar[x_i]\beta_i^2.$$
-Plugging this result back into eq.~\ref{matched_nstar}, we are left with the requirement 
-\begin{equation}
-\label{matched_nstar_new}
-Var[\hat{g}_{sib}(x')] \reqeq Var[\hat{g}_{ur}(x')].
-\end{equation}
-Applying the law of total variance for each estimated polygenic score $\hat{g}$,
-$$Var[\hat{g}_{sib}(x')] =Var_{\hat{\beta}}[E_{x'}[\hat{g}_{sib}(x')|\hat{\beta}]]+E_{\hat{\beta}}[Var_{x'}[\hat{g}_{sib}(x')|\hat{\beta}]] =$$
-$$\sum_i^mE[X_i']Var[\hat{\beta}_i]+\sum_i^mVar[X_i']Var[\hat{\beta}_i].$$
-Plugging $Var[\hat{g}_{sib}(x')]$ back into \ref{matched_nstar_new} and reordering, 
-$$\frac{n^*-1}{n_{sib}-1}=\frac{1}{1+\frac{Var[e](1-2\rho_{sibs})}{Var[y]-\frac{(\sum_i^mE[x_i^2]\beta_i^2)}{(\sum_i^m\frac{E[x_i^2]}{Var[x_i]})}}},$$
-or, assuming 
-$$\frac{(\sum_i^mE[x_i^2]\beta_i^2)}{(\sum_i^m\frac{E[x_i^2]}{Var[x_i]})} << Var[y],$$ 
-%\hl{there's probably a nicer way to present this assumption. but should be a valid assumption}
-we find
-\begin{equation}
-\label{final_nstar_just_direct}
-\frac{n^*}{n^{pairs}} \approx \frac{1}{1+(1-h_{\beta}^2)(1-2\rho_{sibs})}.
+\frac{Cov^2[\hat{g}_{sib}(x'),y']}{{Var[\hat{g}_{sib}(x')]}} \reqeq \frac{Cov^2[\hat{g}_{ur}(x'),y']}{{Var[\hat{g}_{ur}(x')]}}.
 \end{equation}
 
-eq.~\ref{final_nstar_just_direct} can be adopted, in principle, for the estimation of $\rho_{sibs}$ for different traits---under our model assumptions, and given an independent estimate of $h_{\beta}^2.$
+We solve eq.~\ref{matched_nstar} for a sample size $n^*$ to be used for estimation of the polygenic score in a standard GWAS that satisfies eq.~\ref{matched_nstar}.  We note that if the vector of estimates $\hat{\beta}$ is given, then
+$$Cov_{\{(x',y')\}}[y',\hat{g}(x')|\hat{\beta}]=Cov_{\{(x',y')\}}[g(x'),g(x')+\sum_i^m{x_i'(\hat{\beta}_i-\beta_i)}|\hat{\beta}] = $$
+\begin{equation}
+\label{covgy_tag_simple}
+Var_{\{(x',y')\}}[g(x')|\hat{\beta}]+\sum_i^m{Cov_{\{(x',y')\}}[\beta_ix_i',(\hat{\beta}_i-\beta_i)x_i'}|\hat{\beta}]=\sum_i^mVar[x_i']\beta_i\hat{\beta}_i,
+\end{equation}
+
+To incorporate randomness both in the estimation set (summarized by the Multivariate Normal distribution of $\hat{\beta}$) and the prediction set $\{(x',y')\}$, we apply the law of total expectation on eq.~\ref{matched_nstar}, 
+\begin{equation}
+\label{requirement_nstar_new}
+\frac{E_{\hat{\beta}}[Cov_{\{(x',y')\}}[\hat{g}_{sib}(x'),y']]}{\sqrt{E_{\hat{\beta}}[Var_{\{(x',y')\}}[\hat{g}_{sib}(x')]]}} \reqeq \frac{E_{\hat{\beta}}[Cov_{\{(x',y')\}}[\hat{g}_{ur}(x'),y']]}{\sqrt{E_{\hat{\beta}}[Var_{\{(x',y')\}}[\hat{g}_{ur}(x')]]}}.
+\end{equation}
+
+Since for every $i$, we have 
+$$E[\hat{\beta}_i^{ur}]=E[\hat{\beta}_i^{s}]=\beta_i,$$ 
+we obtain
+$$E_{\hat{\beta}^{s}}[Cov[y',\hat{g}^{s}(x')|\hat{\beta}^{s}]]=\sum_i^mVar[x_i']\beta_i^2=E_{\hat{\beta}^{ur}}[Cov[y',\hat{g}^{ur}(x')|\hat{\beta}^{ur}]],$$
+which turns the requirement of eq.~\ref{requirement_nstar_new} into
+$$E_{\hat{\beta}^s}[Var_{\{(x',y')\}}[\hat{g}_{sib}(x')]] \reqeq E_{\hat{\beta}^{ur}}[Var_{\{(x',y')\}}[\hat{g}_{ur}(x')]],$$
+or simply
+\begin{equation}
+\label{matched_nstar_new}
+\sum_i^mVar[X_i]Var[\hat{\beta}_i^{ur}] \reqeq \sum_i^mVar[X_i]Var[\hat{\beta}_i^{s}].
+\end{equation}
+Plugging the sampling variance results from eq.~\ref{var_beta_hat_ur} and eq.~\ref{var_beta_hat_sibs} into eq.~\ref{matched_nstar_new} and reordering, we obtain 
+$$\frac{n^*-1}{n_{pairs}-1} = \frac{\sum_i^m Var[y]-\beta_i^2Var[x_i]}{\sum_i^m Var[y]-\beta_i^2Var[x_i]+Var[e](1-2 \rho_{sibs})},$$
+or, assuming that the trait is polygenic such that $m>>1$, 
+\begin{equation}
+\label{final_nstar_just_direct}
+\frac{n^*}{n^{pairs}} \approx \frac{1}{1+(1-h^2)(1-2\rho_{sibs})}.
+\end{equation}
+
+Eq.~\ref{final_nstar_just_direct} can in principle be applied to the estimation of $\rho_{sibs}$ for a given trait, under our model assumptions, and given an independent estimate of $h^2.$
 
 \subsubsection{Empirical matching of standard errors}
 \label{Empiricalmatchingofstandarderrors}
@@ -247,7 +233,7 @@ The result of eq.~\ref{final_nstar_just_direct} is the same as we would obtain i
 \label{requirement_just_estimation_set}
 \forall i~Var[\hat{\beta}_i^{sib}(x_i)] \reqeq Var[\hat{\beta}_i^{ur}(x_i^{sib})]
 \end{equation}
-without taking  into account randomness in the prediction set.  In practice (and in the results shown in the main text), we have no prior knowledge on $\rho_{sibs}$ and instead we find a sample size $n^*$ for the standard GWAS such that
+without taking  into account randomness in the prediction set.  In practice (and in the results shown in the main text), we have no prior knowledge about $\rho_{sibs}$ and instead we find a sample size $n^*$ for the standard GWAS such that
 \begin{equation}
 \label{requirement_median}
 median_i(Var[\hat{\beta}_i^{sib}(x)]) \reqeq median_i(Var[\hat{\beta}_i^{ur}(x)])
@@ -256,20 +242,21 @@ We note that the condition in eq.~\ref{requirement_just_estimation_set} is appro
 $$ \forall i~\beta_i^2Var[xi] << Var[y],$$
 then 
 $$\forall i~Var[\hat{\beta}_i^{sib}(x)]=Var[\hat{\beta}_i^{ur}(x)]=\frac{D}{Var[x_i]}$$
-where D is the same for sib- and standard GWAS estimates (given that a sample of $n^*$ is used), and approximately independent of $\beta_i$.  eq.~\ref{requirement_median} can be thought of as a weighted-median of D. In conclusion, the requirement of eq.~\ref{requirement_median} leads to equal prediction accuracy under the null model assumptions.
+where $D$ is the same for sib-GWAS and standard GWAS estimates (given that a sample of $n^*$ is used), and approximately independent of $\beta_i$.  Eq.~\ref{requirement_median} can be thought of as a weighted-median of $D$. In conclusion, the requirement of eq.~\ref{requirement_median} leads to equal prediction accuracy of standard and sib-GWAS under the vanilla model assumptions. 
+We note further that in the main text ({\bf Fig.~3}), to follow common practice, we use incremental $R^2$ throughout rather than $R^2$; However, as we show in {\bf Fig.~\ref{fig:R2_ratio_with_residualized_phenotype}}, the use of $R^2$ instead gives highly similar qualitative results.
 
 \pagebreak
 
 \subsection{Indirect parental effects}
-\subsubsection{Distribution of effect estimate at a single site}
-We consider a model with direct effects, as well as indirect parental effects, assuming no interaction between parents and the polygenic score of the children and ignoring possible indirect effects of sibs on each other.
+\subsubsection{Distribution of the effect size estimate at a single site}
+We consider an additive model with direct effects as well as indirect parental effects, assuming no interaction between the parents and the polygenic score of the children and ignoring possible indirect effects of siblings on each other.
 We start by considering the model
 $$y=\beta_0+g+n+e$$
-where g is the sum of direct effects in an individual with genotypes (effect-allele count) $x_i$ at each site $i$,
+where $g$ is the sum of direct effects in an individual with genotype (effect-allele count) $x_i$ at each site $i$,
 $$g=\sum_i^m\beta_ix_i,$$ 
 and 
 $$n=\sum_i^m\eta_i(x_i+\tilde{x}_i^m+\tilde{x}_i^p)$$ 
-is the sum of parental indirect effects to the phenotype, with parental allele counts $x_i+\tilde{x}_i^p+\tilde{x}_i^m$ at each site where $\tilde{x}_i^m$ is the untransmitted maternal effect allele count, and $\tilde{x}_i^p$ is the untransmitted paternal effect allele count, with $\tilde{x}_i^m,\tilde{x}_i^p \in \{0,1\}$.  As we show, when we match the errors of the estimated effect sizes of a standard GWAS then the prediction accuracy of the two polygenic scores differ in an independent sample: unless there is a large negative correlation between indirect and direct effects, the polygenic score from standard GWAS is expected to outperform the one based on sibs.
+is the sum of parental indirect effects, with parental allele counts $x_i+\tilde{x}_i^p+\tilde{x}_i^m$ at each site, where $\tilde{x}_i^m$ is the untransmitted maternal effect allele count, and $\tilde{x}_i^p$ the untransmitted paternal effect allele count, with $\tilde{x}_i^m,\tilde{x}_i^p \in \{0,1\}$.  As we show, when we choose the standard GWAS sample size $n^*$ such that the effect size estimate sampling errors match those of the sib-GWAS, the prediction accuracies of the two polygenic scores differ in an independent sample: unless there is a large negative correlation between indirect and direct effects, the polygenic score from standard GWAS is expected to outperform the one based on sib-GWAS.  
 
 We first examine the distribution of an estimated effect size of $x_i$ on the phenotype.  The OLS regression for a single site in a standard GWAS follows eq.~\ref{ols_model} and can be rewritten as
 \begin{equation}
@@ -283,9 +270,9 @@ By the assumption of no assortative mating or other population structure,
 \label{no_assort_or_structure}
 Cov[\tilde{x}_i^p,\tilde{x}_i^m]=Cov[x_i,\tilde{x}_i^m]=Cov[x_i,\tilde{x}_i^p]=0.
 \end{equation}
-It directly follows that in eq.~\ref{OLS_indirect} we have two terms involve independent variables.  Therefore,  $\hat{\beta^{ur}}_i$ is Normally distributed and unbiased, with expectation 
-$$E[\hat{\beta}_i]=\beta_i+\eta_i.$$
-We next calculate $\hat{\beta}_i^{ur}$'s variance. From assumption \ref{no_assort_or_structure} and 
+It directly follows that under the generative model specified by eq.~\ref{OLS_indirect}, the OLS regression of $y$ to $x_i$ and $\tilde{x}_i^p+\tilde{x}_i^m$ is a regression involving two independent variables.  Therefore, $\hat{\beta}_i^{ur}$ is Normally distributed with expectation 
+$$E[\hat{\beta}_i^{ur}]=\beta_i+\eta_i.$$
+We next calculate the variance of $\hat{\beta}_i^{ur}$. From assumption \ref{no_assort_or_structure} and 
 $$Var[\tilde{x}_i^m+\tilde{x}_i^p]=Var[x_i],$$
 we obtain
 $$Var[\epsilon_i]=Var[y]+(\beta_i+\eta_i)^2Var[x_i]+\eta_i^2Var[x_i]-2Cov[g+n,(\beta_i+\eta_i)x_i]-2Cov[n,\eta_i(\tilde{x}_i^m+\tilde{x}_i^p)]=$$
@@ -294,17 +281,18 @@ Finally,
 $$Var[\hat{\beta}_i^{ur}]=\frac{Var[\epsilon_i]}{(n-1)Var[x_i]}=\frac{Var[y]-Var[x_i] (\beta_i^2+2\beta_i \eta_i + 2 \eta_i^2)}{(n-1)Var[x_i]}.$$
 In sib regression, we have
 $$\Delta y=\Delta g+\Delta e$$
-as indirect parental effects cancel out when taking the difference between sibs, because the sibs have an equal parental effect allele count. Thus, the expected estimate is the same it was in the absence of direct effects;  Using the same considerations for the variance of sib differences as in {\bf Section \ref{matching_errors_under_the_null}}, we obtain    
-$$\hat{\beta}_i^{sib} \sim N(\beta_i,\frac{Var[g] - \beta_i^2var[x_i] + Var[e](1-2\rho_{sibs})}{(n_{pairs}-1) Var[x_i]}),$$
-where $\rho_{sibs}$ is again the correlation in environmental effect between sibs.
+since indirect parental effects cancel out when taking the difference between sibs (as siblings have an equal parental effect allele count). Thus, the expected estimate is the same as it was in the absence of indirect effects.  Using the same considerations as in {\bf Section \ref{matching_errors_under_the_null}} for the variance in sib differences, we obtain    
+$$\hat{\beta}_i^{sib} \sim N(\beta_i,\frac{Var[g] - \beta_i^2Var[x_i] + Var[e](1-2\rho_{sibs})}{(n_{pairs}-1) Var[x_i]}),$$
+where $\rho_{sibs}$ is again the correlation in environmental effects between siblings.
 
 \subsubsection{Polygenic score prediction accuracy}
+\label{polygenic_score_prediction_accuracy}
 We now examine the difference in prediction accuracy of $\hat{g}^{ur}$ and $\hat{g}^{sib}$ after matching 
 \begin{equation}
 \label{matching_errors_indirect}
 Var[\hat{\beta}_i^{ur}] \reqeq Var[\hat{\beta}_i^{sib}]
 \end{equation}
-by choosing a standard GWAS sample size $n^*$ that empirically satisfies the condition, as we do in the main text (see also section \ref{Empiricalmatchingofstandarderrors}).  
+by choosing a standard GWAS sample size $n^*$ that empirically satisfies the condition, as we do in the main text (see also {\bf Section \ref{Empiricalmatchingofstandarderrors}}).  
 % By this approach, we obtain
 % $$ Cov[y',\hat{g}(x')]=\sum_i^m(\beta_i+\eta_i)Cov[\hat{\beta}_ix_i',x_i']+\eta_iCov[\hat{\beta}_ix_i',(\tilde{x}_i'^m+\tilde{x}_i'^p)].$$
 % Taking eq.~\ref{no_assort_or_structure} into account, the second term is zero.  By the law of total covariance,
@@ -321,39 +309,40 @@ by choosing a standard GWAS sample size $n^*$ that empirically satisfies the con
 % \sum_i^mE[x_i]^2Var[\hat{\beta}_i]+\sum_i^mVar[x_i]E[\hat{\beta}_i^2].
 % \end{equation}
 % Taken together, eq.~\ref{covariance_prediction} and eq.~\ref{variance_ps_prediction} give
-We can derive the expected prediction accuracy by averaging over both the estimation set (which we again shorthand as the distribution of $\hat{\beta}$) and the prediction set ${x',y'}$.  By the law of total expectation,
+We can derive the expected prediction accuracy by averaging over both the estimation set (which we again shorthand as the distribution of $\hat{\beta}$) and the prediction set $\{(x',y')\}$.  By the law of total expectation,
 \begin{equation}
 \label{total_expectation_for_R2}
-E[R^2] = E_{\hat{\beta}}[E_{x'}[R^2]] \approx 
-\frac{E_{\hat{\beta}}[Cov_{x'}[\hat{g}(x'),y'|\hat{\beta}]]}{E_{\hat{\beta}}[Var_{x'}[y']E_{\hat{\beta}}[Var_{x'}[\hat{g}(x')|\hat{\beta}]},
+E[R^2] = E_{\hat{\beta}}[E_{\{(x',y')\}}[R^2]] \approx 
+\frac{E_{\hat{\beta}}[Cov_{\{(x',y')\}}[\hat{g}(x'),y'|\hat{\beta}]]}{E_{\hat{\beta}}[Var_{\{(x',y')\}}[y']]E_{\hat{\beta}}[Var_{\{(x',y')\}}[\hat{g}(x')|\hat{\beta}]]},
 \end{equation}
 where we approximate the expected prediction accuracy by its first-order Taylor expansion.  The numerator  of eq.~\ref{total_expectation_for_R2} is 
 \begin{equation}
 \label{E_cov_y'_g_hat}
-E_{\hat{\beta}}[Cov_{x'}[\hat{g}(x'),y'|\hat{\beta}]]=\sum_i^m(\beta_i+\eta_i)E_{\hat{\beta}}[Cov_{x'}[\hat{\beta}_ix_i',x_i']|\hat{\beta}] = \sum_i^m Var[x_i](\beta_i+\eta_i)E[\hat{\beta}_i],
+E_{\hat{\beta}}[Cov_{\{(x',y')\}}[\hat{g}(x'),y'|\hat{\beta}]]=\sum_i^m(\beta_i+\eta_i)E_{\hat{\beta}}[Cov_{\{(x',y')\}}[\hat{\beta}_ix_i',x_i']|\hat{\beta}] = \sum_i^m Var[x_i](\beta_i+\eta_i)E[\hat{\beta}_i],
 \end{equation}
 and the denominator terms are 
 \begin{equation}
 \label{E_Var_y'}
-E_{\hat{\beta}}[Var_{x'}[y'|\hat{\beta}]] = Var[y]
+E_{\hat{\beta}}[Var_{\{(x',y')\}}[y'|\hat{\beta}]] = Var[y]
 \end{equation}
 and
 \begin{equation}
 \label{E_var_g_hat}
-E_{\hat{\beta}}[Var_{x'}[\hat{g}(x')|\hat{\beta}] = E_{\hat{\beta}}[\sum_i^mVar[x_i]\hat{\beta}_i^2] =
+E_{\hat{\beta}}[Var_{\{(x',y')\}}[\hat{g}(x')|\hat{\beta}] = E_{\hat{\beta}}[\sum_i^mVar[x_i]\hat{\beta}_i^2] =
 \sum_i^mVar[x_i](E[\hat{\beta}_i]^2+Var[\hat{\beta}_i]).
 \end{equation}
 
-Plugging eq.~\ref{E_cov_y'_g_hat},\ref{E_Var_y'},\ref{E_var_g_hat} back into eq.~\ref{total_expectation_for_R2} we obtain
+Plugging eq.~\ref{E_cov_y'_g_hat},\ref{E_Var_y'},\ref{E_var_g_hat} back into eq.~\ref{total_expectation_for_R2}, we obtain
 
 % $$\frac{\sum_i^mVar[x_i](\beta_i+\eta_i)E[\hat{\beta}_i]}{\sqrt{Var[y]}\sqrt{\sum_i^mE[x_i]^2Var[\hat{\beta}_i]+\sum_i^mVar[x_i]E[\hat{\beta}_i^2]}} =$$
 \begin{equation}
 \label{R_indirect_general_form}
-E[R^2] \approx \frac{(\sum_i^mVar[x_i](\beta_i+\eta_i)E[\hat{\beta}_i])^2}{Var[y](\sum_i^mVar[x_i]Var[\hat{\beta}_i]+\sum_i^mVar[x_i]E[\hat{\beta}_i]^2)}
+E[R^2] \approx \frac{(\sum_i^mVar[x_i](\beta_i+\eta_i)E[\hat{\beta}_i])^2}{Var[y](\sum_i^mVar[x_i]Var[\hat{\beta}_i]+\sum_i^mVar[x_i]E[\hat{\beta}_i]^2)}.
 \end{equation}
-We next note that 
+
+We note that 
 $$\tilde{C}:=Var[y]\sum_i^m Var[x_i] Var[\hat{\beta}_i]$$
-is the same for sib regression and standard GWAS under the requirement of eq.~\ref{matching_errors_indirect}.  We therefore have 
+is the same for sib-GWAS and standard GWAS under the requirement of eq.~\ref{matching_errors_indirect}.  We therefore have 
 \begin{equation}
 \label{R_indirect_unrelated_longform}
 E[R_{ur}^2] \approx \frac{(\sum_i^mVar[x_i](\beta_i+\eta_i)^2)^2}{\tilde{C}+ Var[y]\sum_i^mVar[x_i](\beta_i+\eta_i)^2},
@@ -364,21 +353,21 @@ and
 E[R_{sib}^2] \approx \frac{(\sum_i^mVar[x_i](\beta_i+\eta_i)\beta_i)^2}{\tilde{C}+ Var[y]\sum_i^mVar[x_i]\beta_i^2}.
 \end{equation}
 
-If we denote the heritability explained by direct effects by
-$$h_{\eta}^2:=\frac{\sum_i^mVar[x_i]\beta_i^2}{Var[y]},$$
-the heritability explained by indirect effects by
-$$h_{\beta}^2:=\frac{\sum_i^mVar[x_i]\eta_i^2}{Var[y]},$$
-and the heritability explained by both direct and indirect effects by
-$$h^2:=\frac{\sum_i^mVar[x_i](\beta_i+\eta_i)^2}{Var[y]}$$
+If we denote the proportion of the phenotypic variance explained by direct effects by
+$$h_{\beta}^2:=\frac{\sum_i^mVar[x_i]\beta_i^2}{Var[y]},$$
+the proportion of the phenotypic variance explained by indirect effects of transmitted parental alleles by
+$$\tau_{\eta}^2:=\frac{\sum_i^mVar[x_i]\eta_i^2}{Var[y]},$$
+and the proportion of phenotypic variance explained by both direct and indirect effects of transmitted alleles by
+$$\tau^2:=\frac{\sum_i^mVar[x_i](\beta_i+\eta_i)^2}{Var[y]}$$
 then the square of eq.~\ref{R_indirect_unrelated_longform} can be written as
 \begin{equation}
 \label{R_indirect_unrelated_shortform}
-E[R_{ur}^2] \approx h^2\frac{1}{1+c},
+E[R_{ur}^2] \approx \tau^2\frac{1}{1+c},
 \end{equation}
 where we defined
 $$c:=\frac{\sum_i^mVar[x_i]Var[\hat{\beta}_i]}{\sum_i^mVar[x_i](\beta_i+\eta_i)^2}.$$
-Here, $c$ can be thought of as a summary of estimation noise, i.e., a weighted average of the coefficients of variation of effect size estimators.
-If we further assume that effects are randomly distributed across sites and are iid  (implying, in particular, that effect sizes and allele frequencies are independent),
+Here, $c$ can be thought of as a summary of the noise-to-signal ratio---with respect to the signal coming from both direct and indirect effects of transmitted alleles.  If we treat effects $\beta$ and $\eta$ as random, treating results obtained thus far as conditional on $\beta$ and $\eta$, and further assume that effects are i.i.d. across sites (implying, in particular, that effect sizes and allele frequencies are independent), 
+
 \[ 
 \left (
   \begin{tabular}{c}
@@ -398,86 +387,108 @@ If we further assume that effects are randomly distributed across sites and are 
   \rho \sigma_\beta \sigma_\eta & \sigma_\eta^2 
   \end{tabular}
 \right )\right ), 
-\] then the expectation of the numerator of eq.~\ref{R_indirect_sibs_longform} is
-$$E_{\beta,\eta}[\sum_i^mVar[x_i]\beta_i(\beta_i+\eta_i)]=\sum_i^mVar[x_i]E_{\beta_i,\eta_i}[\beta_i^2+\beta_i \eta_i]=\sum_i^mVar[x_i](\sigma_{\beta}^2+\rho \sigma_{\beta} \sigma_{\eta})$$
-thus eq.~\ref{R_indirect_sibs_longform}, in expectation, is:
+\] the expectation of the numerator of eq.~\ref{R_indirect_sibs_longform} is
+$$E_{\beta,\eta}[\sum_i^mVar[x_i]\beta_i(\beta_i+\eta_i)|\beta,\eta]=\sum_i^mVar[x_i]E_{\beta_i,\eta_i}[\beta_i^2+\beta_i \eta_i]=\sum_i^mVar[x_i](\sigma_{\beta}^2+\rho \sigma_{\beta} \sigma_{\eta})$$
+and thus eq.~\ref{R_indirect_sibs_longform}, in expectation, is:
 
 \begin{equation}
 \label{R_indirect_sibs_shortform}
-E[R_{sib}^2] \approx (1+\rho \frac{\sigma_\eta}{\sigma_\beta})^2 h_\beta^2 \frac{1}{1 + c/\alpha}.
+E[R_{sib}^2] \approx E_{\beta,\eta}[E[R_{sib}^2|\beta,\eta]]=(1+\rho \frac{\sigma_\eta}{\sigma_\beta})^2 h_\beta^2 \frac{1}{1 + c/\alpha}.
 \end{equation} where
-$$\alpha := h_\beta^2 / h^2=  \frac{\sum_i^mVar[x_i]\beta_i^2}{\sum_i^mVar[x_i](\beta_i+\eta_i)^2}.$$
+$$\alpha := h_\beta^2 / \tau^2=  \frac{\sum_i^mVar[x_i]\beta_i^2}{\sum_i^mVar[x_i](\beta_i+\eta_i)^2}.$$
 
-We examined the fit of this prediction to simulated data.  Specifically, we ran simulations to estimate effect sizes in a sib-GWAS and in a standard GWAS, after choosing $n^*$ to match their variances.  Finally, we predicted phenotypes in a sample of unrelated individuals (see {\bf Section \ref{indirect_sim_details}} for further detail).
+We examined the fit of this prediction to simulated data.  Specifically, we ran simulations to estimate effect sizes in a sib-GWAS and in a standard GWAS, after choosing $n^*$ to match their sampling variances.  Finally, we used the polygenic scores to predict phenotypic values in a sample of unrelated individuals (see {\bf Section \ref{indirect_sim_details}} for further detail).
 
-{\bf Fig.~\ref{fig_R_vs_rho_sims}} shows the the analytic result alongside simulation results for different correlation coefficients between indirect and direct effect sizes.  Even in the absence of correlation between indirect and direct effect sizes, the polygenic score based on standard GWAS outperforms the sib-based polygenic score.  
+{\bf Fig.~\ref{fig_R_vs_rho_sims}A,C,D} show the analytic result alongside simulation results, for different correlation coefficients between indirect and direct effect sizes.  Even in the absence of a correlation between indirect and direct effect sizes, the polygenic score based on standard GWAS outperforms the polygenic score based on sib-GWAS.  
 
 To understand this behavior and dependency of the $\frac{R_{sib}^2}{R_{ur}^2}$ ratio on other parameters, we divide eq.~\ref{R_indirect_sibs_shortform} by eq.~\ref{R_indirect_unrelated_shortform} and obtain
 $$E[\frac{R_{sib}^2}{R_{ur}^2}] \approx \left(1+\rho \frac{\sigma_{\eta}}{\sigma_{\beta}}\right)^{2}\alpha \frac{1+c}{1+c/\alpha}.$$
 Noting further that
-$$\left(1+\rho \frac{\sigma_{\eta}}{\sigma_{\beta}}\right)^{2} \alpha=\left(\frac{\sigma_\beta+\rho \sigma_\eta}{\sigma_\beta}\right)^{2} \frac{\sigma_\beta^{2}}{\sigma_\beta^{2}+2 \rho \sigma_{\beta} \sigma_{\eta}+\sigma_{\eta}^{2}}=1-(1-\rho^2)\frac{h_\eta^2}{h^2},$$
-we get
+$$\left(1+\rho \frac{\sigma_{\eta}}{\sigma_{\beta}}\right)^{2} \alpha=\left(\frac{\sigma_\beta+\rho \sigma_\eta}{\sigma_\beta}\right)^{2} \frac{\sigma_\beta^{2}}{\sigma_\beta^{2}+2 \rho \sigma_{\beta} \sigma_{\eta}+\sigma_{\eta}^{2}}=1-(1-\rho^2)\frac{\tau_\eta^2}{\tau^2},$$
+we obtain
 \begin{equation}
 \label{R2_ratio}
-E[\frac{R_{sib}^2}{R_{ur}^2}] \approx [ 1-(1-\rho^2) \frac{h_\eta^2}{h^2}]\frac{1+c}{1+c\frac{h^2}{h_\beta^2}}.
+E[\frac{R_{sib}^2}{R_{ur}^2}] \approx [ 1-(1-\rho^2) \frac{\tau_\eta^2}{\tau^2}]\frac{1+c}{1+c\frac{\tau^2}{h_\beta^2}}.
 \end{equation}
 
-A few conclusions emerge from eq.~\ref{R2_ratio}.  First, the sib-based polygenic score will outperform the standard polygenic score only if direct and indirect effects are strongly negatively correlated.   Second, the term
-$$\frac{1+c}{1+c\frac{h^2}{h_\beta^2}}=\frac{1+\frac{\sum_i^mVar[\hat{\beta}_i]Var[x_i]}{h^2}}{1+\frac{\sum_i^mVar[\hat{\beta}_i]Var[x_i]}{h_{\beta}^2}}$$
-can be though of the dependence on the noise-to-signal ratio (the signal being the total heritability and the direct-effect heritability); for a given estimation noise (matched across the two study designs), we get a different amount of signal from standard and sib-GWAS.  Importantly, we note that random estimation noise factors into the expected prediction accuracies ratio.  If indirect nurture does not exist, or has negligible effects on the trait in question, the prediction accuracies ratio is expected to be one.  However, in the presence of indirect effects, the magnitude of the deviation from 1 depends on the relationship between heritability components (direct, indirect and their covariance) as well as on the (matched) estimation noise.
-
-%\hl{discussion behavior, limit behavior and figure illustrating behavior}
-
-%\hl{discussion of effect of p-value threshold, alongside simulations that include the ascertainment of SNPs}
+ A few conclusions emerge from eq.~\ref{R2_ratio} and from the accompanying simulations.  First, the sib-GWAS based polygenic score will outperform the standard GWAS-based polygenic score only if direct and indirect effects are strongly negatively correlated (see {\bf Fig.~\ref{fig_R_vs_rho_sims}A-D} for illustration).   Second, the term
+\begin{equation}
+\frac{1+c}{1+c\frac{\tau^2}{h_\beta^2}}=\frac{1+\frac{\sum_i^mVar[\hat{\beta}_i]Var[x_i]}{\tau^2}}{1+\frac{\sum_i^mVar[\hat{\beta}_i]Var[x_i]}{h_{\beta}^2}}
+\end{equation}
+can be interpreted as the dependence on the noise-to-signal ratio (where the signals are the proportions of phenotypic variance explained by direct and indirect effects of transmitted alleles). For a given sampling variance (matched across the two study designs), the extent of the signal will differ between standard GWAS and sib-GWAS.  Importantly, the sampling variance influences the ratio of prediction accuracies.  If indirect effects do not exist or make negligible contributions to the trait in question, then the ratio of prediction accuracies is expected to be close to one.  In the presence of indirect effects, however, the magnitude of the deviation from 1 depends on the relationship between direct and indirect effects (and their covariance) as well as on the (matched) sampling variance. simulations of several parameter combinations suggest that the overall effect of this dependence on the noise-to-signal ratio is a decrease in $R^2_{sibs}/R^2_{ur}$  as noise increases; as more SNPs are included in the polygenic scores, the advantage of the standard GWAS-based polygenic score over the sib-GWAS based one grows larger ({\bf Fig.~\ref{fig_R_vs_rho_sims}E-H}). These considerations provide a possible interpretation for the patterns observed in {\bf Fig.~3C-H} of the main text.
 
 \vspace{0.5cm}
 
-%This is because in this case $\alpha < 1$.  This is true as long as $c$ is nonzero (it approaches zero for very large estimation sample sizes). For realistic sample sizes, however, $c$ is nonzero.  As Fig.~\ref{fig_R_vs_rho_sims} demonstrates, unless the indirect and direct effects are strongly negatively correlated ($<0.5$), prediction accuracy will be higher using the standard GWAS with unrelated individuals.\\
-
-\subsubsection{Indirect effects simulation details}
+\subsubsection{Simulations of indirect effects}
 \label{indirect_sim_details}
-For each set of individuals used for estimation or prediction, we first simulated mother-father pairs, assigning parental alleles as $Bernoulli(p_i)$, where $p_i$ denotes the effect allele frequency at site $i$.  We then sampled the parental alleles to generate offspring (one offspring per each mother-father pair to simulate a sample of unrelated individuals, and two offspring to generate sibling pairs). Phenotypes of the offspring were sampled from a Normal distribution with mean
-$$\sum_i^m\beta_ix_i+\eta_i({x}_i^p+{x}_i^m)$$ (where ${x}_i^m$ and ${x}_i^p$ are the maternal and paternal effect allele counts, respectively) and variance 
-$$1-h^2.$$
-Using this approach, we generated a set a of sibling pairs and estimated SNP effect sizes using a sibling regression. We then calculated $n^*$ as follows: we simulated sets of unrelated individuals with a range of sample sizes. In each set, we performed simple linear regression of phenotype to genotype.  We then estimated a linear relationship between the inverse of the median standard error of effect size estimates (as a dependent variable) and the square root of the sample size.  Using this linear relationship, we then predicted the sample size for the unrelated set that gives a median standard error equal to the median standard error of sib-regression effect size estimates ($n^*$).  Finally, we simulated a set of unrelated individuals with sample size $n^*$ and compared the prediction accuracy ($R^2$) of the polygenic score based on this sample and the sib-based polygenic score. 
+For each set of simulated individuals (discovery, estimation and prediction sets), we first simulated mother-father pairs, assigning parental alleles as $Bernoulli(p_i)$, where $p_i$ denotes the effect allele frequency at site $i$.  We then sampled the parental alleles at random to generate offspring (one offspring per each mother-father pair to simulate a sample of unrelated individuals and two offspring to generate sibling pairs). Phenotypes of the offspring were assigned under an additive model, sampling from a Normal distribution with mean
+$$\sum_i^m\beta_ix_i+\eta_i({x}_i^p+{x}_i^m)$$ (where ${x}_i^m$ and ${x}_i^p$ are the maternal and paternal effect allele counts, respectively) and variance $\sigma_e^2,$ representing the total variance of  environmental effects. When there is no correlation between direct and indirect effects, $\sigma_e^2=1-h_{\beta}^2-2\tau_{\eta}^2$. Using this approach, we generated a set of sibling pairs and estimated SNP effect sizes from these simulated data using a sib-GWAS. We calculated $n^*$ as follows: we simulated sets of unrelated individuals with a range of sample sizes. In each set, we performed a simple linear regression of the phenotypic values on the genotypes.  We then estimated a linear relationship between the inverse of the median standard error of effect size estimates (as a dependent variable) and the square root of the sample size.  Using this linear relationship, we predicted the sample size for the unrelated set that gives a median standard error equal to the median standard error of sib-GWAS effect size estimates ($n^*$).  Finally, we simulated a set of unrelated individuals with sample size $n^*$ and compared the prediction accuracy ($R^2$) of the polygenic score based on standard GWAS on this sample with the one obtained from sib-GWAS.
+
+We additionally investigated the effect of the number of SNPs included in the polygenic scores. For this analysis, we sorted the SNPs based on the association p-value obtained in an independent simulated set of unrelated individuals.\\
 
 In these simulations, we used the following parameter values:
 
-- ratio of the heritability accounted for by direct effects versus indirect effects: 5
+- The ratio of the phenotypic variance accounted for by direct effects versus by indirect effects ($h_{\beta}^2/\tau_{\eta}^2$): 5
 
-- heritability from direct effects: 0.5
+- The phenotypic variance explained by offspring and parental alleles, given no correlation between direct and indirect effects ($h_{\beta}^2+2\tau_{\eta}^2$): 0.25 or 0.5
 
-- allele frequencies are drawn from a truncated exponential distribution, truncated on the left such that the minimum allele frequency is 1\%.
+- The ratio of the variance of direct effects to the variance of indirect effects ($\sigma_{\beta}^2/\sigma_{\eta}^2$): 5
 
-- number of loci: 1000.
+- Allele frequencies are drawn from a truncated exponential distribution, truncated on the left such that the minimum allele frequency is 1\%.
 
-- Variance of direct effect size: 1.
+- The number of loci, assumed independent (i.e., in linkage equilibrium): 100 (all causal), or 10,000 (all causal) or 10,000 (20\% causal)
 
-- Variance of indirect effect size: 0.25.
+- SNP effect sizes drawn as 
 
-- number of sibling pairs for sib GWAS: 13,000
+\[ 
+\left (
+  \begin{tabular}{c}
+  $\beta_{i}$ \\
+  $\eta_{i}$
+  \end{tabular}
+\right ) \sim N
+\left ( \left (
+  \begin{tabular}{c}
+  $0$ \\
+  $0$
+  \end{tabular}
+\right ),
+\left (
+  \begin{tabular}{cc}
+  $\sigma_{\beta}^2$ & $\rho \sigma_{\beta} \sigma_{\eta}$  \\
+  $\rho \sigma_{\beta} \sigma_{\eta}$ & $\sigma_{\eta}^2$ 
+  \end{tabular}
+\right )\right ), 
+\] 
+where $\rho$ is the correlation between direct and indirect effect sizes. Effects sizes were then re-scaled to satisfy $\sum_i^m2\beta_i^2p_i(1-p_i)=h_{\beta}^2$ and $\sum_i^m2\eta_i^2p_i(1-p_i)=\tau_{\eta}^2$. Effects were set to 0 for non-causal loci.
 
-- number of unrelated individuals for prediction: 20,000
+- The number of sibling pairs for sib GWAS: 10,000
 
-- one iteration was used to estimate $n^*$ and $R$ for a given $\rho$ (i.e., correlation between direct and indirect effect sizes) and heritability ratio.
+- The number of unrelated individuals for prediction: 10,000
+
+- The number of unrelated individuals for discovery GWAS (i.e., to decide which SNPs to include): 20,000
+
+- Number of iterations used to estimate $n^*$ and $R^2$ for a given set of parameters: 10
 
 
 \pagebreak
 
 \subsection{Assortative mating}
-We considered assortative mating with regard to a phenotype, whereby the mating of individuals in the population is dependent on the degree of their similarity with respect to that phenotype.  This process generates a correlation (linkage disequilibrium) between genetic variants that contribute to the phenotype.  Consequently, in a standard GWAS, the marginal effect sizes of causal SNPs will partially capture the effect size of other causal SNPs as well. Thus, estimated effect sizes are expected to be inflated under positive assortative mating (mating of similar individuals) and deflated under negative assortative mating (mating of dissimilar individuals). In turn, in a sibling-based GWAS, the estimates are in expectation unaffected by assortative mating, because genetic differences between siblings arise from random Mendelian segregation in the parents. 
+We consider assortative mating with regard to a phenotype, whereby the parents of individuals were more likely to mate if they were similar with respect to that phenotype. This process generates a correlation between genetic variants that contribute to the phenotype (i.e., linkage disequilibrium).  Consequently, in a standard GWAS, the effect sizes of causal SNPs will partially capture the effect of other causal SNPs as well. Estimated effect sizes are thus expected to be inflated under positive assortative mating (mating of similar individuals) and deflated under negative assortative mating (mating of dissimilar individuals). In turn, in a sib-GWAS, the estimates are in expectation unaffected by assortative mating, because genetic differences between siblings arise from random Mendelian segregation in the parents. 
 
-\subsubsection{Assortative mating simulations}
-We used simulations to examine the phenotypic prediction accuracies of sibling-based and standard polygenic scores in a sample of unrelated individuals under a model with assortative mating, varying the correlation between parental phenotypes $\rho_a$. Similar to our simulations for indirect effects ({\bf Section~\ref{indirect_sim_details}}), we first simulated the estimation procedure in a sibling-based and in a standard GWAS (with sample size $n^*$). We then computed the prediction accuracy $R^2$ in an independent sample of unrelated individuals (see {\bf Further simulation details} below).\\
+\subsubsection{Simulations of assortative mating}
+We used simulations to examine the phenotypic prediction accuracies of polygenic scores based on sib- and standard GWAS under a model with assortative mating (assuming no indirect effects or population stratification beyond assortative mating); this end, we considered a sample of unrelated individuals, varying the degree of correlation between parental phenotypes $\rho_a$. Similar to our simulations for indirect effects ({\bf Section~\ref{indirect_sim_details}}), we first simulated the estimation procedure in a sibling-based and in a standard GWAS (with sample size $n^*$). We then computed the prediction accuracy $R^2$ in an independent sample of unrelated individuals (see {\bf Further simulation details} below).\\
 
-We first considered the simple case of a single generation of assortative mating. In the presence of positive assortative mating ($\rho_a>0$) standard polygenic scores based on unrelated samples outperform sib-based polygenic scores, whereas the opposite is true in the case of negative assortative mating ($\rho_a<0$) ({\bf Fig.~\ref{fig_assort_mate}A}). In simulations of two generations of assortative mating, the gap between prediction accuracies of standard and sib-based predictions ({\bf Fig.~\ref{fig_assort_mate}B}) is amplified, suggesting that our qualitative findings apply to scenarios of sustained assortative mating as well. We further investigated prediction accuracy as a function of the number of SNPs included in the polygenic scores, progressively adding SNPs, with p-values obtained from an independent GWAS in unrelated samples (similar to our analysis in {\bf Fig. 3}). We considered two genetic architectures scenarios, (i) in which all SNPs are causal and (ii) the case in which 20\% of of SNPs are causal (leading polygenic scores to include non-causal SNPs due to estimation noise). Under both scenarios, the gap in prediction accuracies between standard and sib-based grows with the number SNPs ({\bf Fig.~\ref{fig_assort_mate}C-F}).\\
+We first considered the simple case of a single generation of assortative mating. In the presence of positive assortative mating ($\rho_a>0$), polygenic scores based on standard GWAS outperform those based on sib-GWAS, whereas the opposite is true in the case of negative assortative mating ($\rho_a<0$) ({\bf Fig.~\ref{fig_assort_mate}A}). In simulations of two generations of assortative mating, the gap between the prediction accuracies of scores based on standard and sib-GWAS ({\bf Fig.~\ref{fig_assort_mate}B}) widens, suggesting that our qualitative findings apply to scenarios of sustained assortative mating as well.\\
+
+We further investigated prediction accuracy as a function of the number of SNPs included in the polygenic scores, by progressively increasing the p-value threshold, using p-values obtained from an independent GWAS in unrelated samples (similar to our analysis in {\bf Fig. 3}). We considered two genetic architectures scenarios: (i) in which all SNPs are causal and (ii) the case in which 20\% of of SNPs are causal (leading polygenic scores to include non-causal SNPs). Under both scenarios, the gap in prediction accuracies between standard and sib-GWAS grows with the number of SNPs ({\bf Fig.~\ref{fig_assort_mate}C-F}).\\
 
 \paragraph{Further simulation details.}
 \label{assortative_sim_details} 
-We simulated parental and offspring alleles as described for indirect effects in {\bf Section \ref{indirect_sim_details}}. To simulate assortative mating between parents, we first simulated iid genotypes (effect allele counts $x_i$ at each SNP $i$) and randomly assigned "mother" and "father" labels to each individual. We then generated corresponding parental phenotypes as
-$$N(\sum_i^m\beta_ix_i,\sqrt{1-h^2})$$ where  $\beta_i$ is the effect size of SNP $i$, and $h^2$ is the heritability.  The same model was used later to generate offspring phenotypes.
+We simulated parental and offspring alleles as described for indirect effects in {\bf Section \ref{indirect_sim_details}}. To mimic assortative mating between parents, we first simulated i.i.d. genotypes (with effect allele counts $x_i$ at each SNP $i$) and randomly assigned "mother" and "father" labels to each individual. We then generated corresponding parental phenotypes under an additive model as
+$$N(\sum_i^m\beta_ix_i,\sqrt{1-h^2})$$ where  $\beta_i$ is the effect size of SNP $i$, and $h^2$ is the heritability.  The same model was used to generate offspring phenotypes.
 
-We paired mothers and fathers as follows: we generated a random matrix  
+To induce a given correlation between parental phenotypes, $\rho_a$ (mimicking the consequence of the assortative mating process), we paired mothers and fathers as follows: First, we generated a random matrix  
 \[ 
 \left (
   \begin{tabular}{c}
@@ -497,85 +508,27 @@ We paired mothers and fathers as follows: we generated a random matrix
   $\rho_a \sigma_{y_m} \sigma_{y_p}$ & $\sigma_{y_p}^2$ 
   \end{tabular}
 \right )\right ), 
-\] where $\overline{y}_m$ and $\overline{y}_p$ are the average phenotypes of mothers and fathers, respectively, $\sigma_{y_m}$ and $\sigma_{y_p}$ are the sample standard errors of the phenotypes of mothers and fathers, respectively, and $\rho_a$ is the desired correlation between parental phenotypes.  We then reordered mothers and fathers sets to match the order of $u_m$ and $u_p$, respectively. In the case of two generations of assortative mating, we similarly simulated the generation of the grandparents.\\
+\] where $\overline{y}_m$ and $\overline{y}_p$ are the average phenotypes of mothers and fathers, respectively, $\sigma_{y_m}$ and $\sigma_{y_p}$ are the standard deviation of the phenotypes of mothers and fathers, respectively.  We then sorted the mothers and fathers sets such that the ranks of values in $y_m$ and $y_p$ match the ranks of values in $u_m$ and $u_p$, respectively, to obtain $cor(y_m,y_p)\approx cor(u_m,u_p)=\rho_a$. In the case of two generations of assortative mating, we simulated the generation of the grandparents similarly.  We compared the performance of polygenic scores based on standard and sib-GWAS as described in {\bf Section \ref{indirect_sim_details}}.  In the simulations, we used the following parameter values:
 
-[repeats a lot of the above no?] We compared the performance of standard and sibling-based polygenic scores using the same procedure as described in {\bf Section \ref{indirect_sim_details}}. We additionally investigated the effect of the number of SNPs included in the polygenic scores. For this analysis, we sorted the SNPs based on the association p-value obtained in an independent simulated set of unrelated individuals.\\ 
+- Heritability under random mating: 0.5
 
-In the simulations, we used the following parameter values:
+- The number of loci, assumed independent (i.e., in linkage equilibrium) under random mating: 10,000 (all causal) or 10,000 (20\% causal)
 
-- heritability under random mating: 0.5
+- Allele frequencies, $p$, drawn from a truncated exponential distribution, truncated on the left such that the minimum allele frequency is 1\%.
 
-- number of loci, assumed independent (i.e., in linkage equilibrium) under random mating: 10,000
+- SNP effect sizes set to 0 for non-causal loci and drawn as $\beta_i\sim N(0,\sigma^2)$, choosing $\sigma^2$ to satisfy $\sum_i^m2\beta_i^2p_i(1-p_i)=h^2$ for causal loci.
 
-- number of causal loci: 2,000 or 10,000
+- The number of sibling pairs for sib GWAS: 10,000
 
-- allele frequencies, $p$, drawn from a truncated exponential distribution, truncated on the left such that the minimum allele frequency is 1\%.
+- The number of unrelated individuals for prediction: 10,000
 
-- SNP effect sizes set to 0 for non-causal loci and drawn as $\beta_i\sim N(0,\sigma^2)$, choosing $\sigma^2$ to satisfy $\sum_i^m2\beta_i^2p_i(1-p_i)=h^2$ for causal loci. 
+- The number of unrelated individuals for discovery GWAS (i.e., to decide which SNPs to include in the polygenic score): 20,000
 
-- number of sibling pairs for sib GWAS: 10,000
-
-- number of unrelated individuals for prediction: 10,000
-
-- number of unrelated individuals for discovery GWAS (i.e. SNP prioritization): 20,000
-
-- 10 iterations were used to estimate $n^*$ and $R$ for a given $\rho_a=$ (i.e., correlation between parental phenotypes).
-
+- The number of iterations used to estimate $n^*$ and $R^2$ for a given set of parameters: 10
 \pagebreak
 
-\begin{figure}[h!]
-\includegraphics[width=\textwidth]{./supp_figures/fig1_Rsweep.pdf}
-\caption{p-value threshold dependence of trends in Fig. 1}
-\centering
-\end{figure}
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=\textwidth]{./supp_figures/beta_sweep.pdf}
-\caption{Effects across strata}
-\end{figure}
-
-
-\begin{figure}[h!]
-\includegraphics[width=0.9\textwidth]{./supp_figures/bolt.pdf}
-\caption{LMM}
-\centering
-\end{figure}
-
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=\textwidth]{./supp_figures/binary_edu_traits.pdf}
-\caption{Binary education traits}
-\end{figure}
-
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=\textwidth]{./supp_figures/Fig3_si_v2.pdf}
-\caption{p-value dependence of sib vs standard PS prediction accuracy}
-\end{figure}
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=\textwidth]{./supp_figures/sibs_unrel_compare1.pdf}
-\caption{sibs vs unrel: age, ses, sex ratio}
-\end{figure}
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=\textwidth]{./supp_figures/sibs_unrel_compare2.pdf}
-\caption{sibs vs unrel: PCs}
-\end{figure}
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=10cm]{./supp_figures/fig3_panelA_SI.pdf}
-\caption{repeat of Fig 3 with residualized phenotypes}
-\end{figure}
-
-\begin{table}[h!]
-\caption{List of traits analyzed}
+\begin{table}[h]
+\caption[Traits analyzed and their corresponding data fields in UK Biobank.]{\small Traits analyzed and their corresponding data fields in UK Biobank. For diastolic blood pressure, in addition to the raw measurements, we used medication data to adjust the blood pressure levels. For hand grip strength, we used the measurements for both hands.}
 \begin{center}
  \begin{tabular}{| l l |} 
  \hline
@@ -608,9 +561,10 @@ In the simulations, we used the following parameter values:
 \end{center}
 \end{table}
 
+\pagebreak
 
-\begin{table}[h!]
-\caption{Genetic correlations across strata}
+\begin{table}[h]
+\caption[Genetic correlations across samples that vary by a study characteristic.]{\small Genetic correlations across samples that vary by a study characteristic. Numbers are genetic correlations estimated using LD score regression for BMI, years of schooling and diastolic blood pressure, across samples stratified by age, socioeconomic status (SES) and sex, respectively. ‘Q’ denotes quartile of age or SES.}
 \begin{center}
  \begin{tabular}{|c | c | c |} 
  \hline
@@ -630,15 +584,16 @@ In the simulations, we used the following parameter values:
   & (Q2,Q4) & 1.09 (0.074)  \\ 
   & (Q3,Q4) & 1.04 (0.074)  \\ 
  \hline\hline
- DBP/Sex & (male,female) & 0.93 (0.031)  \\ 
+ Diastolic blood pressure/Sex & (male,female) & 0.93 (0.031)  \\ 
  \hline
  \end{tabular}
  \end{center}
 \end{table}
 
+\pagebreak
 
-\begin{table}[h!]
-\caption{Sample sizes for sibling and unrelated sets}
+\begin{table}[h]
+\caption[Sample sizes for siblings and unrelated sets]{\small Sample sizes for siblings and unrelated sets. As described in {\bf Fig.~3A}, for the comparison of prediction accuracies of polygenic scores based on standard and sib-GWAS, we first ascertain SNPs in a large sample of unrelated individuals ("Unrelated-discovery") and then estimate the effect of these SNPs with a standard regression using unrelated individuals ("Unrelated-n*") and, independently, using sib-regression (in the "Siblings" set). Finally, we used the polygenic scores for prediction in a third sample of unrelated individuals ("Unrelated-prediction"). This table shows sample sizes used for each set across the traits analyzed.}
 \begin{center}
 \small
  \begin{tabular}{| l l l l l |} 
@@ -675,9 +630,10 @@ Simulated trait 2 & 17305 & 276382 & 11749 & 30709 \\
 \end{center}
 \end{table}
 
+\pagebreak
 
-\begin{table}[h!]
-\caption{Degree conversion table}
+\begin{table}[h]
+\caption[Academic degree to years of schooling conversion table]{\small Academic degree to years of schooling conversion table. The qualifications were converted to years of schooling following Okbay et al. \cite{okbay2016genome}}
 \begin{center}
  \begin{tabular}{| l l |} 
  \hline
@@ -694,7 +650,117 @@ Simulated trait 2 & 17305 & 276382 & 11749 & 30709 \\
  \end{tabular}
 \end{center}
 \end{table}
+\pagebreak
 
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{supp_figures/supp_raw_R2_to_env_boxplot_nice.pdf}
+\caption[Variable prediction accuracy (measured as $R^2$) even within an ancestry group.]{\small Variable prediction accuracy (measured as $R^2$) even within an ancestry group.  This figure mirrors {\bf Fig.~1} of the main text, except for the y-axis showing are $R^2$ values, rather than incremental $R^2$.  Each box and whiskers plot was computed based on twenty choices of estimation and prediction sets. Thick horizontal lines denote the medians.  {\bf (A,C,E)} The polygenic scores were estimated in large samples of unrelated "White British" (WB) individuals. Phenotypes were then predicted in distinct sets of unrelated WB individuals, stratified by sex (A), age (C) or Townsend deprivation index, a measure of SES (E).  {\bf (B,D,F)} Same as in A,C,E, but here the polygenic scores are based on a GWAS in a sample limited to one sex or to one age or SES stratum.  When the GWAS is performed in the sex or stratum that shows higher prediction accuracy in A,C,E (female, young, low SES), the qualitative trend is the same; but when the GWAS is performed in men, old or high SES groups, prediction accuracy is diminished and similar across prediction sets.}
+\label{fig:prediction_accuracy_strata_r2_including_covariates}
+\end{figure}
+
+\pagebreak
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{./supp_figures/fig1_Rsweep.pdf}
+\caption[Dependence on the number of SNPs included in the polygenic score.]{\small Dependence on the number of SNPs included in the polygenic score. This figure extends {\bf Fig.~1} of the main text, showing the prediction accuracies as a function of the p-value threshold for inclusion of a SNP in the polygenic score. The higher the p-value threshold is, the more SNPs are included. Shown are incremental $R^2$ values in different prediction sets. Points and error bars are mean and central 80\% range computed based on twenty choices of estimation and prediction sets. {\bf (A,D,G)}. The polygenic scores were estimated in large samples of unrelated "White British" (WB) individuals. Phenotypes were then predicted in distinct samples of unrelated WB individuals, stratified by sex (A), age (D) or Townsend deprivation index, a measure of SES (G).  {\bf (B-I)} Same as in A,D,G, but here the polygenic scores are based on a GWAS in a sample limited to one sex, age or SES group. The trends shown in {\bf Fig.~1} of the main text are for p-value threshold of $10^{-4}$, and are qualitatively similar to the trends at other p-value thresholds.}
+\centering
+\end{figure}
+
+\pagebreak
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{./supp_figures/beta_sweep.pdf}
+\caption[Estimating mean effect size across strata]{\small Estimating mean effect size across strata   SNPs were ascertained in large samples of unrelated "White British" (WB) individuals. The effects of trait-increasing alleles were then re-estimated in an independent set of unrelated WB individuals (that were excluded from the original GWAS) stratified by sex for diastolic blood pressure {\bf (A)}, by age for BMI {\bf (B)} and by Townsend deprivation index, a measure of SES for years of schooling {\bf (C)}. Points and error bars are mean and central 80\% range computed based on twenty choices of ascertainment and estimation sets, plotted as a function of the p-value threshold (for p-values obtained in the original GWAS).}
+\label{fig_p_value_trends}
+\end{figure}
+
+\pagebreak
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{./supp_figures/bolt.pdf}
+\caption[Variable prediction accuracy within an ancestry: sensitivity to controls for population structure]{\small Variable prediction accuracy within an ancestry: sensitivity to controls for population structure. This figure mirrors the panels in {\bf Fig.~\ref{fig_p_value_trends}}, except that in these, the standard GWAS estimates were obtained from a linear mixed model (LMM). Shown are the prediction accuracies, measured as incremental $R^2$, as a function of the p-value threshold for inclusion of a SNP in the polygenic score. Points and error bars are mean and central 80\% range computed based on twenty choices of estimation and prediction sets. The polygenic scores are based on a GWAS in a sample limited to one sex, age or SES group. Phenotypes are then predicted in distinct samples of unrelated individuals, stratified by sex {\bf (A)}, age {\bf (B)} or Townsend deprivation index, a measure of SES {\bf (C)}. The qualitative trends are similar to those in {\bf Fig.~\ref{fig_p_value_trends}}, which uses a standard linear regression with PCs as a control for population structure when testing for an association between the phenotypes and genotypes. The similarity suggests that the observed differences in prediction accuracies across strata are not driven to a large degree by population structure confounding.}
+\centering
+\end{figure}
+
+\pagebreak
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{./supp_figures/sibs_unrel_compare1.pdf}
+\caption[Comparison of siblings and unrelated individuals in the UK Biobank with respect to age, SES, and sex ratio]{\small Comparison of siblings and unrelated individuals in the UK Biobank with respect to age, SES, and sex ratio. Panels show the distribution of Townsend deprivation index, a measure of SES {\bf (A)}, the age distribution {\bf (B)}, and the proportion of males {\bf (C)} for the siblings and unrelated sets used in the analysis described for {\bf Fig.~3} of the main text. For each sibling pair, one sibling was randomly selected for these comparisons. The asterisk symbol marks a significant difference between siblings and unrelated individuals, Mann-Whitney $p<0.01$. SES and age distributions are quite similar in siblings and unrelated sets, whereas the proportion of males is slightly but significantly smaller in the siblings.}
+\end{figure}
+
+\pagebreak
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{./supp_figures/sibs_unrel_compare2.pdf}
+\caption[Comparison of siblings and unrelated individuals in the UK Biobank with respect to population structure]{\small Comparison of siblings and unrelated individuals in the UK Biobank with respect to population structure. Panels show the distribution of PCs for the siblings and unrelated sets used in the analysis described for {\bf Fig.~3} of the main text. For each sibling pair, one sibling was randomly selected for these comparisons. The asterisk symbol marks a significant difference between siblings and unrelated individuals, Mann-Whitney $p<0.01$. Siblings and unrelated sets are broadly similar with respect to their genetic ancestries.}
+\end{figure}
+
+\pagebreak
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{supp_figures/indirect.pdf}
+\caption[Simulation results for polygenic scores based on standard GWAS and sib-GWAS in the presence of indirect effects.]{\small Simulation results for polygenic scores based on standard GWAS and sib-GWAS in the presence of indirect effects. {\bf (A,B)} Simulation results as a function of the correlation between direct and indirect effects, $\rho$. Simulations were performed with $h_{\beta}^2=0.5$, $\tau_{\eta}^2=0.1$, and ${\sigma_{\beta}^2}/{\sigma_{\eta}^2}=5$. The size of the estimation set in the sib-GWAS is 10,000, and the size of the estimation set in the standard GWAS is chosen to match sampling variances between the two study designs. The polygenic scores is based on 10,000 causal loci; its performance was evaluated in an independent set of 10,000 unrelated individuals. As long as direct and indirect effects are not strongly negatively correlated, out-of-sample prediction accuracy is higher for the polygenic scores based on standard GWAS. {\bf (C)} Same as {\bf (A)} but with three-fold greater environmental noise. {\bf (D)} Same as (A) but with 100 causal loci. In (A-D) points are mean $\pm$ 2 SD in 10 simulation iterations. Solid lines are values based on analytic expressions derived in {Section \ref{polygenic_score_prediction_accuracy}}. {\bf (E-H)} Simulations results, with the same parameters as in (A) but $\rho=0.5$, as a function of the number of SNPs included in the polygenic scores, with all loci being causal (E,F), or with 20\% of loci being causal (G,H). SNPs are added in an increasing order of their association p-value in an independent set of 20,000 unrelated individuals. In both cases, the ratio of prediction accuracies of polygenic scores based on sib- versus standard GWAS becomes smaller with the inclusion of more weakly associated SNPs, a behavior qualitatively similar to observations in Fig. 3 in the main text. Points are mean $\pm$ 2 SD in 10 simulations.} 
+\label{fig_R_vs_rho_sims}
+\end{figure}
+
+\pagebreak
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.6\textwidth]{supp_figures/assort_mate.pdf}
+\caption[Simulation results for polygenic scores based on standard GWAS and sib-GWAS in the presence of assortative mating.]{\small Simulation results for polygenic scores based on standard GWAS and sib-GWAS in the presence of assortative mating. {\bf (A)} Simulation results as a function of the approximate correlation between parental phenotypes, $\rho_a$. Simulations were performed with $\tau^2=0.5$ under random mating. The size of the estimation set in the sib-GWAS is 10,000, and the size of the estimation set in the standard GWAS is chosen to match sampling variances between the two study designs. The polygenic scores is based on 10,000 causal loci; its performance was evaluated in an independent set of 10,000 unrelated individuals. Standard-GWAS based polygenic scores outperforms (underperforms) sib-GWAS based polygenic scores under positive (negative) assortative mating. {\bf (B)} Ratio of prediction accuracies of the polygenic scores based on sib- versus standard GWAS, as a function of $\rho_a$, for two sets of simulations with one or two generations of assortative mating, with same parameters as in (A). {\bf (C-F)} Simulations results, with the same parameters as in (A) but $\rho_a=0.5$, as a function of the number of SNPs included in the polygenic score, with all loci being causal (C,D), or with 20\% of loci being causal (E,F). SNPs are added in the order of their association p-value in an independent set of 20,000 unrelated individuals. In both cases, the ratio of prediction accuracies for scores based on sib-GWAS versus standard GWAS becomes smaller with the inclusion of more weakly associated SNPs, a behavior that is qualitatively similar to observations in {\bf Fig. 3} in the main text. Points are mean $\pm$ 2 SD in 10 simulation iterations.} 
+\label{fig_assort_mate}
+\end{figure}
+
+
+\pagebreak
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=10cm]{./supp_figures/sex_matched_panel_A_all_iters}
+\caption[Comparison of prediction accuracies of polygenic scores based on standard and sib-GWAS matched for sex ratio]{\small Comparison of prediction accuracies of polygenic scores based on standard and sib-GWAS matched for sex ratio. This figure mirrors {\bf Fig.~3B} of the main text, but here the samples of siblings and unrelated individuals used in the analysis are matched for sex ratio. Results are shown for diastolic blood pressure, as the prediction accuracy differed between sexes ({\bf Fig. ~1}), the related phenotype of pulse rate, and a subset of the traits for which the prediction accuracy varied by GWAS design ({\bf Fig.~3B}). Small points show the ratio of the prediction accuracies in the two designs across 10 iterations; in each iteration, we resample sets of unrelated individuals to constitute three sets: for discovery, estimation and prediction. Large points show mean values.}
+\label{fig:R2_ratio_with_sex_ratio_matched}
+\end{figure}
+
+
+\pagebreak
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{./supp_figures/Fig3_si_v2.pdf}
+\caption[Prediction accuracy of polygenic scores based on sib- and standard GWAS, for a range of traits]{\small Prediction accuracy of polygenic scores based on sib-and standard GWAS, for a range of traits. This figure complements {\bf Figs.~3C-H} of the main text, showing the results of the study design depicted in {\bf Fig.~3A} for all traits presented in {\bf Fig.~3}. As described for {\bf Fig. 3}, we randomly divided unrelated individuals to constitute three non-overlapping sets for discovery, estimation and prediction. Small points correspond to 10 iterations of resmapling these three sets. The prediction accuracy is plotted as a function of the p-value threshold, where p-values come from the discovery GWAS. Lines show mean values.}
+\end{figure}
+
+\pagebreak
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{./supp_figures/binary_edu_traits.pdf}
+\caption[Variable prediction accuracy within an ancestry group for binary education phenotypes]{\small Variable prediction accuracy within an ancestry group for binary education phenotypes. Shown are incremental Nagelkerke's $R^2$ for two binary education phenotypes, attained a college degree or not {\bf (A)}, and attained any degree or not {\bf (B)}. The polygenic scores are estimated in large samples of unrelated individuals. Phenotypes are then predicted in distinct samples of unrelated individuals, stratified by Townsend deprivation index, a measure of SES. Points and error bars are mean and central 80\% range computed based on twenty choices of estimation and prediction sets, plotted as a function of the p-value threshold (with p-values obtained in the original GWAS).}
+\end{figure}
+
+\pagebreak
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=10cm]{./supp_figures/fig3_panelA_SI.pdf}
+\caption[Comparison of prediction accuracies of polygenic scores ($R^2$) based on standard and sib-GWAS]{\small Comparison of prediction accuracies of polygenic scores (measured as $R^2$) based on standard and sib-GWAS. This figure mirrors {\bf Fig.~3B} of the main text, but here we first residualized the phenotypes on covariates, and then ran the same pipeline described as that used to generate {\bf Fig.~3B} on the residuals without further adjustment for covariates in the GWAS or prediction evaluation. Thus, this figure relates more directly to the analytical derivation in {\bf Section \ref{matching_errors_under_the_null}}. However, the results in {\bf Fig.~3B} and here are qualitatively similar. Small points show the ratio of the prediction accuracies in the two designs across 10 iterations; in each iteration, we resample sets of unrelated individuals to constitute three sets: for discovery, estimation and prediction. Large points show mean values.}
+\label{fig:R2_ratio_with_residualized_phenotype}
+\end{figure}
+
+\pagebreak
+
+\bibliographystyle{acm}
+\bibliography{sample_size_matching}
+\end{document}
 
 %\subsubsection{Consequences of direct-indirect correlation and significance threshold}
 %\hl{to be completed}
@@ -712,11 +778,3 @@ Simulated trait 2 & 17305 & 276382 & 11749 & 30709 \\
 
 % we fix $Var[x_i]$, $\beta_i$ and $\eta_i$ across all sites $i$, then $R_{ur}-R_{sib}$ is monotonically increasing with $\eta_i$.  This suggests to us that indirect effects that are positively correlated with direct effects give higher prediction accuracy for standard GWAS than sib-regression.  This also suggests that in the case of indirect effects tending to have the opposite sign, $R$ may even be negative for sib regression.
 %\cite{Bischoff2006}
-\pagebreak
-
-\bibliographystyle{acm}
-
-%\bibliography{sample_size_matching}
-
-\end{document}
-
