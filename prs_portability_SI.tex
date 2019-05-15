@@ -52,7 +52,7 @@
 \usepackage{kbordermatrix}% http://www.hss.caltech.edu/~kcb/LaTeX.shtml
 \usepackage{mathtools}
 \usepackage{amsmath}
-
+\usepackage{multirow}
 
 
 
@@ -202,7 +202,7 @@ Var_{\{(x',y')\}}[g(x')|\hat{\beta}]+\sum_i^m{Cov_{\{(x',y')\}}[\beta_ix_i',(\ha
 To incorporate randomness both in the estimation set (summarized by the Multivariate Normal distribution of $\hat{\beta}$) and the prediction set $\{(x',y')\}$, we apply the law of total expectation on eq.~\ref{matched_nstar}, 
 \begin{equation}
 \label{requirement_nstar_new}
-\frac{E_{\hat{\beta}}[Cov_{\{(x',y')\}}[\hat{g}_{sib}(x'),y']]}{\sqrt{E_{\hat{\beta}}[Var_{\{(x',y')\}}[\hat{g}_{sib}(x')]]}} \reqeq \frac{E_{\hat{\beta}}[Cov_{\{(x',y')\}}[\hat{g}_{ur}(x'),y']]}{\sqrt{E_{\hat{\beta}}[Var_{\{(x',y')\}}[\hat{g}_{ur}(x')]]}}.
+\frac{E_{\hat{\beta}}[Cov_{\{(x',y')\}}[\hat{g}_{sib}(x'),y']]^2}{{E_{\hat{\beta}}[Var_{\{(x',y')\}}[\hat{g}_{sib}(x')]]}} \reqeq \frac{E_{\hat{\beta}}[Cov_{\{(x',y')\}}[\hat{g}_{ur}(x'),y']]^2}{{E_{\hat{\beta}}[Var_{\{(x',y')\}}[\hat{g}_{ur}(x')]]}}.
 \end{equation}
 
 Since for every $i$, we have 
@@ -313,7 +313,7 @@ We can derive the expected prediction accuracy by averaging over both the estima
 \begin{equation}
 \label{total_expectation_for_R2}
 E[R^2] = E_{\hat{\beta}}[E_{\{(x',y')\}}[R^2]] \approx 
-\frac{E_{\hat{\beta}}[Cov_{\{(x',y')\}}[\hat{g}(x'),y'|\hat{\beta}]]}{E_{\hat{\beta}}[Var_{\{(x',y')\}}[y']]E_{\hat{\beta}}[Var_{\{(x',y')\}}[\hat{g}(x')|\hat{\beta}]]},
+\frac{E_{\hat{\beta}}[Cov_{\{(x',y')\}}[\hat{g}(x'),y'|\hat{\beta}]]^2}{E_{\hat{\beta}}[Var_{\{(x',y')\}}[y']]E_{\hat{\beta}}[Var_{\{(x',y')\}}[\hat{g}(x')|\hat{\beta}]]},
 \end{equation}
 where we approximate the expected prediction accuracy by its first-order Taylor expansion.  The numerator  of eq.~\ref{total_expectation_for_R2} is 
 \begin{equation}
@@ -526,45 +526,81 @@ To induce a given correlation between parental phenotypes, $\rho_a$ (mimicking t
 
 - The number of iterations used to estimate $n^*$ and $R^2$ for a given set of parameters: 10
 \pagebreak
-
 \begin{table}[h]
-\caption[Traits analyzed and their corresponding data fields in UK Biobank.]{\small Traits analyzed and their corresponding data fields in UK Biobank. For diastolic blood pressure, in addition to the raw measurements, we used medication data to adjust the blood pressure levels. For hand grip strength, we used the measurements for both hands.}
+\caption[Traits analyzed and their corresponding data fields in UK Biobank.]{\small Traits analyzed and their corresponding data fields in UK Biobank. For diastolic blood pressure, in addition to the raw measurements, we used medication data to adjust the blood pressure levels. For hand grip strength, we used the measurements for both hands. In parentheses are units of measurements.}
 \begin{center}
- \begin{tabular}{| l l |} 
+\resizebox{\textwidth}{!}{
+ \begin{tabular}{| l l l |} 
  \hline
- \textbf{Trait} & \textbf{UKB data field} \\ [0.5ex] 
+ \textbf{Trait} & \textbf{Description} & \textbf{UKB data field} \\ [0.5ex] 
  \hline\hline
-  Age at first sex & 2139  \\ 
-  Alcohol intake frequency & 1558  \\
-  Basal metabolic rate & 23105  \\ 
-  Birth weight & 20022  \\ 
-  Body mass index & 21001  \\
-  Diastolic blood pressure & 4079, 6153, 6177  \\ 
-  Fluid intelligence & 20016  \\ 
-  Forced vital capacity & 3062  \\ 
-  Hair color & 1747  \\ 
-  Hand grip strength & 46, 47  \\ 
-  Height & 50  \\ 
-  Hip circumference & 49  \\ 
-  Household income & 738  \\ 
-  Neuroticism score & 20127  \\ 
-  Overall health rating & 2178  \\ 
-  Pack years of smoking & 20161  \\ 
-  Pulse rate & 102  \\ 
-  Skin color & 1717  \\ 
-  Waist circumference & 48  \\ 
-  Whole body fat mass & 23100  \\ 
-  Whole body water mass & 23102  \\ 
-  Years of schooling & 6138 \\ 
+  Age at first sex & Self-reported age at first sexual intercourse (years) & 2139  \\ 
+  \hline
+  Alcohol intake frequency & Self-reported category, encoded as an integer: 1, ``Daily or& 1558 \\
+  &almost daily"; 2, ``Three or four times a week"; 3, ``Once&\\
+  &or twice a week"; 4, ``One to three times a month";&\\
+  &5, ``Special occasions only"; 6, ``Never"&\\
+  \hline
+  Basal metabolic rate & Estimated from body composition impedance measurements (KJ) & 23105  \\
+  \hline
+  Birth weight & Self-reported birth-weight (Kg) & 20022  \\
+  \hline
+  Body mass index & Constructed from height and weight measurements (Kg/m^2)  & 21001  \\
+  \hline
+  Diastolic blood pressure & Measured using automated devices (mmHg); values are adjusted& 4079, 6153, 6177  \\ 
+  &for medicine use (see \textbf{Materials and Methods})&\\
+  \hline
+  Fluid intelligence & Unweighted sum of the number of correct answers given to & 20016  \\ 
+  &13 fluid intelligence questions&\\
+  \hline
+  Forced vital capacity & Calculated from breath spirometry (liters) & 3062  \\ 
+  \hline
+  Hair color & Self-reported category, encoded as an integer: 1, ``Blonde";& 1747  \\
+  &2, ``Red"; 3, ``Light brown"; 4, ``Dark brown"; 5, ``Black"; &\\
+  &none, ``Other"&\\
+  \hline
+  Hand grip strength & Measured right and left hand isometric grip strength (Kg) & 46, 47  \\ 
+  \hline
+  Height & Measured standing height (cm) & 50  \\ 
+  \hline
+  Hip circumference & Measured hip circumference (cm) & 49  \\ 
+  \hline
+  Household income & Self-reported average total annual household income before tax& 738\\
+  &category, encoded as an integer: 1, ``Less than $\pounds18,000$";&\\
+  &2, ``$\pounds18,000$ to $\pounds30,999$"; 3, ``$\pounds31,000$ to $\pounds51,999$";&\\
+  &4, ``$\pounds52,000$ to $\pounds100,000$"; 5, ``Greater than $\pounds100,000$"&  \\ 
+  \hline
+  Neuroticism score & Derived summary score, based on participants' responses & 20127\\
+  &to 12 neurotic behaviour-related questions & \\ 
+  \hline
+  Overall health rating & Self-reported category, encoded as an integer: 1, ``Excellent";& 2178\\
+  &2, ``Good"; 3, ``Fair"; 4, ``Poor" &  \\ 
+  \hline
+  Pack years of smoking & Calculated for individuals who have ever smoked as the number& 20161\\
+  &of cigarettes smoked per day, divided by twenty, multiplied&\\
+  &by the number of years of smoking (years)&\\ 
+  \hline
+  Pulse rate & Measured during the automated blood pressure readings (bpm) & 102  \\ 
+  \hline
+  Skin color & Self-reported category, encoded as an integer: 1, ``Very fair"; 2, & 1717\\
+  &``Fair"; 3, ``Light olive"; 4, ``Dark olive"; 5, ``Brown"; 6, ``Black" & \\
+  \hline
+  Waist circumference & Measured waist circumference (cm) & 48  \\ 
+  \hline
+  Whole body fat mass & Estimated from body composition impedance measurements (Kg) & 23100  \\ 
+  \hline
+  Whole body water mass & Estimated from body composition impedance measurements (Kg) & 23102  \\ 
+  \hline
+  Years of schooling & Education qualifications converted to years (see \textbf{Table \ref{eduyears_table}}) & 6138 \\ 
    \hline
- \end{tabular}
+ \end{tabular}}
 \end{center}
 \end{table}
 
 \pagebreak
 
 \begin{table}[h]
-\caption[Genetic correlations across samples that vary by a study characteristic.]{\small Genetic correlations across samples that vary by a study characteristic. Numbers are genetic correlations estimated using LD score regression for BMI, years of schooling and diastolic blood pressure, across samples stratified by age, socioeconomic status (SES) and sex, respectively. ‘Q’ denotes quartile of age or SES.}
+\caption[Genetic correlations across samples that vary by a study characteristic.]{\small Genetic correlations across samples that vary by a study characteristic. Numbers are genetic correlations estimated using LD score regression for BMI, years of schooling and diastolic blood pressure, across samples stratified by age, Townsend deprivation index (a measure of socioeconomic status, SES), and sex, respectively. ‘Q’ denotes quartile of age or SES.}
 \begin{center}
  \begin{tabular}{|c | c | c |} 
  \hline
@@ -593,9 +629,9 @@ To induce a given correlation between parental phenotypes, $\rho_a$ (mimicking t
 \pagebreak
 
 \begin{table}[h]
-\caption[Sample sizes for siblings and unrelated sets]{\small Sample sizes for siblings and unrelated sets. As described in {\bf Fig.~3A}, for the comparison of prediction accuracies of polygenic scores based on standard and sib-GWAS, we first ascertain SNPs in a large sample of unrelated individuals ("Unrelated-discovery") and then estimate the effect of these SNPs with a standard regression using unrelated individuals ("Unrelated-n*") and, independently, using sib-regression (in the "Siblings" set). Finally, we used the polygenic scores for prediction in a third sample of unrelated individuals ("Unrelated-prediction"). This table shows sample sizes used for each set across the traits analyzed.}
+\caption[Sample sizes for siblings and unrelated sets]{\small Sample sizes for siblings and unrelated sets. As described in {\bf Fig.~3A}, for the comparison of prediction accuracies of polygenic scores based on standard and sib-GWAS, we first ascertain SNPs in a large sample of unrelated individuals (``Unrelated-discovery") and then estimate the effect of these SNPs with a standard regression using unrelated individuals (``Unrelated-n*") and, independently, using sib-regression (in the ``Siblings" set). Finally, we used the polygenic scores for prediction in a third sample of unrelated individuals (``Unrelated-prediction"). This table shows sample sizes used for each set across the traits analyzed.}
 \begin{center}
-\small
+\resizebox{\textwidth}{!}{
  \begin{tabular}{| l l l l l |} 
  \hline
  \textbf{Trait} & \textbf{Siblings (pairs)} & \textbf{Unrelateds-discovery} & \textbf{Unrelateds-n*} & \textbf{Unrelateds-prediction}\\ [0.5ex] 
@@ -626,7 +662,7 @@ Years of schooling & 17041 & 273599 & 11873 & 30399 \\
 Simulated trait 1 & 17305 & 276731 & 11362 & 30747 \\
 Simulated trait 2 & 17305 & 276382 & 11749 & 30709 \\
    \hline
- \end{tabular}
+ \end{tabular}}
 \end{center}
 \end{table}
 
@@ -649,13 +685,14 @@ Simulated trait 2 & 17305 & 276382 & 11749 & 30709 \\
    \hline
  \end{tabular}
 \end{center}
+\label{eduyears_table}
 \end{table}
 \pagebreak
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=\textwidth]{supp_figures/supp_raw_R2_to_env_boxplot_nice.pdf}
-\caption[Variable prediction accuracy (measured as $R^2$) even within an ancestry group.]{\small Variable prediction accuracy (measured as $R^2$) even within an ancestry group.  This figure mirrors {\bf Fig.~1} of the main text, except for the y-axis showing are $R^2$ values, rather than incremental $R^2$.  Each box and whiskers plot was computed based on twenty choices of estimation and prediction sets. Thick horizontal lines denote the medians.  {\bf (A,C,E)} The polygenic scores were estimated in large samples of unrelated "White British" (WB) individuals. Phenotypes were then predicted in distinct sets of unrelated WB individuals, stratified by sex (A), age (C) or Townsend deprivation index, a measure of SES (E).  {\bf (B,D,F)} Same as in A,C,E, but here the polygenic scores are based on a GWAS in a sample limited to one sex or to one age or SES stratum.  When the GWAS is performed in the sex or stratum that shows higher prediction accuracy in A,C,E (female, young, low SES), the qualitative trend is the same; but when the GWAS is performed in men, old or high SES groups, prediction accuracy is diminished and similar across prediction sets.}
+\caption[Variable prediction accuracy (measured as $R^2$) even within an ancestry group.]{\small Variable prediction accuracy (measured as $R^2$) even within an ancestry group.  This figure mirrors {\bf Fig.~1} of the main text, except for the y-axis showing are $R^2$ values, rather than incremental $R^2$.  Each box and whiskers plot was computed based on twenty choices of estimation and prediction sets. Thick horizontal lines denote the medians.  {\bf (A,C,E)} The polygenic scores were estimated in large samples of unrelated "White British" (WB) individuals. Phenotypes were then predicted in distinct sets of unrelated WB individuals, stratified by sex (A), age (C) or Townsend deprivation index, a measure of SES (E).  {\bf (B,D,F)} Same as in A,C,E, but here the polygenic scores are based on a GWAS in a sample limited to one sex or to one age or SES stratum.  When the GWAS is performed in the sex or stratum that shows higher prediction accuracy in A,C,E (female, young, low SES), the qualitative trend is the same, but when the GWAS is performed in men, old or high SES groups, prediction accuracy is diminished and similar across prediction sets.}
 \label{fig:prediction_accuracy_strata_r2_including_covariates}
 \end{figure}
 
@@ -673,7 +710,7 @@ Simulated trait 2 & 17305 & 276382 & 11749 & 30709 \\
 \begin{figure}[h]
 \centering
 \includegraphics[width=\textwidth]{./supp_figures/beta_sweep.pdf}
-\caption[Estimating mean effect size across strata]{\small Estimating mean effect size across strata   SNPs were ascertained in large samples of unrelated "White British" (WB) individuals. The effects of trait-increasing alleles were then re-estimated in an independent set of unrelated WB individuals (that were excluded from the original GWAS) stratified by sex for diastolic blood pressure {\bf (A)}, by age for BMI {\bf (B)} and by Townsend deprivation index, a measure of SES for years of schooling {\bf (C)}. Points and error bars are mean and central 80\% range computed based on twenty choices of ascertainment and estimation sets, plotted as a function of the p-value threshold (for p-values obtained in the original GWAS).}
+\caption[Estimating mean effect size across strata]{\small Estimating mean effect size across strata. SNPs were ascertained in large samples of unrelated "White British" (WB) individuals. The effects of trait-increasing alleles were then re-estimated in an independent set of unrelated WB individuals (that were excluded from the original GWAS) stratified by sex for diastolic blood pressure {\bf (A)}, by age for BMI {\bf (B)} and by Townsend deprivation index, a measure of SES for years of schooling {\bf (C)}. Points and error bars are mean and central 80\% range computed based on twenty choices of ascertainment and estimation sets, plotted as a function of the p-value threshold (for p-values obtained in the discovery GWAS).}
 \label{fig_p_value_trends}
 \end{figure}
 
@@ -682,7 +719,7 @@ Simulated trait 2 & 17305 & 276382 & 11749 & 30709 \\
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.8\textwidth]{./supp_figures/bolt.pdf}
-\caption[Variable prediction accuracy within an ancestry: sensitivity to controls for population structure]{\small Variable prediction accuracy within an ancestry: sensitivity to controls for population structure. This figure mirrors the panels in {\bf Fig.~\ref{fig_p_value_trends}}, except that in these, the standard GWAS estimates were obtained from a linear mixed model (LMM). Shown are the prediction accuracies, measured as incremental $R^2$, as a function of the p-value threshold for inclusion of a SNP in the polygenic score. Points and error bars are mean and central 80\% range computed based on twenty choices of estimation and prediction sets. The polygenic scores are based on a GWAS in a sample limited to one sex, age or SES group. Phenotypes are then predicted in distinct samples of unrelated individuals, stratified by sex {\bf (A)}, age {\bf (B)} or Townsend deprivation index, a measure of SES {\bf (C)}. The qualitative trends are similar to those in {\bf Fig.~\ref{fig_p_value_trends}}, which uses a standard linear regression with PCs as a control for population structure when testing for an association between the phenotypes and genotypes. The similarity suggests that the observed differences in prediction accuracies across strata are not driven to a large degree by population structure confounding.}
+\caption[Variable prediction accuracy within an ancestry: sensitivity to controls for population structure]{\small Variable prediction accuracy within an ancestry: sensitivity to controls for population structure. This figure mirrors the panels in {\bf Fig.~\ref{fig_p_value_trends}}, except that here, the standard GWAS estimates were obtained from a linear mixed model (LMM). Shown are the prediction accuracies, measured as incremental $R^2$, as a function of the p-value threshold for inclusion of a SNP in the polygenic score. Points and error bars are mean and central 80\% range computed based on twenty choices of estimation and prediction sets. The polygenic scores are based on a GWAS in a sample limited to one sex, age or SES group. Phenotypes are then predicted in distinct samples of unrelated individuals, stratified by sex {\bf (A)}, age {\bf (B)} or Townsend deprivation index, a measure of SES {\bf (C)}. The qualitative trends are similar to those in {\bf Fig.~\ref{fig_p_value_trends}}, which uses a standard linear regression with PCs as a control for population structure when testing for an association between the phenotypes and genotypes. The similarity suggests that the observed differences in prediction accuracies across strata are not driven to a large degree by population structure confounding.}
 \centering
 \end{figure}
 
@@ -691,7 +728,7 @@ Simulated trait 2 & 17305 & 276382 & 11749 & 30709 \\
 \begin{figure}[h]
 \centering
 \includegraphics[width=\textwidth]{./supp_figures/sibs_unrel_compare1.pdf}
-\caption[Comparison of siblings and unrelated individuals in the UK Biobank with respect to age, SES, and sex ratio]{\small Comparison of siblings and unrelated individuals in the UK Biobank with respect to age, SES, and sex ratio. Panels show the distribution of Townsend deprivation index, a measure of SES {\bf (A)}, the age distribution {\bf (B)}, and the proportion of males {\bf (C)} for the siblings and unrelated sets used in the analysis described for {\bf Fig.~3} of the main text. For each sibling pair, one sibling was randomly selected for these comparisons. The asterisk symbol marks a significant difference between siblings and unrelated individuals, Mann-Whitney $p<0.01$. SES and age distributions are quite similar in siblings and unrelated sets, whereas the proportion of males is slightly but significantly smaller in the siblings.}
+\caption[Comparison of siblings and unrelated individuals in the UK Biobank with respect to age, SES, and sex ratio]{\small Comparison of siblings and unrelated individuals in the UK Biobank with respect to age, SES, and sex ratio. Panels show the distribution of Townsend deprivation index, a measure of SES {\bf (A)}, the age distribution {\bf (B)}, and the proportion of males {\bf (C)} for the siblings and unrelated sets used in the analysis described for {\bf Fig.~3} of the main text. For each sibling pair, one sibling was randomly selected for these comparisons. The asterisk symbol marks a significant difference at the 1\% level between siblings and unrelated individuals, as assessed by a Mann-Whitney test. SES and age distributions are quite similar in siblings and unrelated sets, whereas the proportion of males is significantly smaller in the siblings.}
 \end{figure}
 
 \pagebreak
@@ -699,7 +736,7 @@ Simulated trait 2 & 17305 & 276382 & 11749 & 30709 \\
 \begin{figure}[h]
 \centering
 \includegraphics[width=\textwidth]{./supp_figures/sibs_unrel_compare2.pdf}
-\caption[Comparison of siblings and unrelated individuals in the UK Biobank with respect to population structure]{\small Comparison of siblings and unrelated individuals in the UK Biobank with respect to population structure. Panels show the distribution of PCs for the siblings and unrelated sets used in the analysis described for {\bf Fig.~3} of the main text. For each sibling pair, one sibling was randomly selected for these comparisons. The asterisk symbol marks a significant difference between siblings and unrelated individuals, Mann-Whitney $p<0.01$. Siblings and unrelated sets are broadly similar with respect to their genetic ancestries.}
+\caption[Comparison of siblings and unrelated individuals in the UK Biobank with respect to population structure]{\small Comparison of siblings and unrelated individuals in the UK Biobank with respect to population structure. Panels show the distribution of PCs (principal components of the genotype data) for the siblings and unrelated sets used in the analysis described for {\bf Fig.~3} of the main text. For each sibling pair, one sibling was randomly selected for these comparisons. The asterisk symbol marks a significant difference at the 1\% level between siblings and unrelated individuals, as assessed by a Mann-Whitney test. Despite slight but significant differences, siblings and unrelated sets are broadly similar with respect to their genetic ancestries.}
 \end{figure}
 
 \pagebreak
